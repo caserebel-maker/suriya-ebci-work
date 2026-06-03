@@ -1,0 +1,16 @@
+{
+  "name": "ebci-work-timeline",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static repo for the Suriya EBCI work report timeline.",
+  "scripts": {
+    "dev": "python3 -m http.server 4173",
+    "serve": "python3 -m http.server 4173",
+    "build:wp": "node scripts/build-wordpress-content.mjs",
+    "publish:wp": "npm run build:wp && node scripts/publish-wordpress-page.mjs",
+    "check": "echo 'No automated checks configured yet.'"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}
