@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suriya × EBCI Work Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans+Thai+Looped:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./data.js" defer></script>
+  <script defer>
+    window.addEventListener("DOMContentLoaded", () => {
+      const app = window.SURIYA_EBCI_WORK;
+      if (!app) return;
+
+      document.title = app.title;
+      document.querySelector("[data-title]").textContent = app.title;
+      document.querySelector("[data-subtitle]").textContent = app.subtitle;
+      document.querySelector("[data-period]").textContent = app.period;
+      document.querySelector("[data-timezone]").textContent = app.timezone;
+      document.querySelector("[data-source-count]").textContent = app.sourceCount;
+      document.querySelector("[data-explicit-count]").textContent = app.explicitDateCount;
+      document.querySelector("[data-card-count]").textContent = app.cardCount;
+      document.querySelector("[data-stream-count]").textContent = app.streamCount;
+
+      const opr = app.opr;
+      document.querySelector("[data-opr-report-title]").textContent = app.title;
+      document.querySelector("[data-opr-title]").textContent = opr.title;
+      document.querySelector("[data-opr-subtitle]").textContent = opr.subtitle;
+      document.querySelector("[data-opr-window]").textContent = opr.reportingWindow;
+      document.querySelector("[data-opr-owner]").textContent = opr.owner;
+      document.querySelector("[data-opr-message]").textContent = opr.executiveMessage;
+      document.querySelector("[data-opr-metrics]").innerHTML = opr.metrics.map((metric) => `
+        <div class="opr-metric">
+          <b>${metric.value}</b>
+          <span>${metric.label}</span>
+        </div>
+      `).join("");
+      document.querySelector("[data-opr-highlights]").innerHTML = opr.highlights.map((item) => `<li>${item}</li>`).join("");
+      document.querySelector("[data-download-pdf]").addEventListener("click", () => {
+        const sheet = document.querySelector(".opr-sheet");
+        const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
+          .map((node) => node.outerHTML)
+          .join("\n");
+        const oldFrame = document.querySelector("[data-opr-print-frame]");
+        oldFrame?.remove();
+        const printFrame = document.createElement("iframe");
+        printFrame.setAttribute("data-opr-print-frame", "");
+        printFrame.setAttribute("aria-hidden", "true");
+        printFrame.style.position = "fixed";
+        printFrame.style.right = "0";
+        printFrame.style.bottom = "0";
+        printFrame.style.width = "0";
+        printFrame.style.height = "0";
+        printFrame.style.border = "0";
+        document.body.appendChild(printFrame);
+
+        const printDocument = printFrame.contentDocument || printFrame.contentWindow.document;
+        printDocument.open();
+        printDocument.write(`
+          <!doctype html>
+          <html lang="th">
+          <head>
+            <meta charset="utf-8" />
+            <title>${opr.title} · PDF</title>
+            ${styles}
+            <style>
+              body.opr-print-body{
+                margin:0;
+                min-height:100vh;
+                display:grid;
+                place-items:start center;
+                background:#fff;
+              }
+              body.opr-print-body::before,
+              body.opr-print-body .download-pdf,
+              body.opr-print-body .detail-section{display:none!important}
+              body.opr-print-body .opr-sheet{
+                margin:0!important;
+                box-shadow:none!important;
+              }
+              @media print{
+                @page{size:A4;margin:0}
+                body.opr-print-body{
+                  background:#fff!important;
+                  color:#201317!important;
+                }
+                body.opr-print-body .opr-sheet{
+                  width:210mm!important;
+                  min-height:297mm!important;
+                  max-height:297mm!important;
+                  padding:10mm!important;
+                  border-radius:0!important;
+                  page-break-after:avoid!important;
+                  background:#fff!important;
+                  color:#201317!important;
+                  border:1px solid #d8c8c9!important;
+                }
+                body.opr-print-body .opr-sheet::before,
+                body.opr-print-body .opr-metric::after{display:none!important}
+                body.opr-print-body .opr-report-title,
+                body.opr-print-body .opr-topline h1,
+                body.opr-print-body .opr-block h2,
+                body.opr-print-body .opr-charts h2,
+                body.opr-print-body .opr-month strong,
+                body.opr-print-body .opr-pulse-step h3,
+                body.opr-print-body .opr-metric b{
+                  color:#201317!important;
+                }
+                body.opr-print-body .kicker,
+                body.opr-print-body .opr-month span,
+                body.opr-print-body .opr-pulse-step strong{
+                  color:#8b4f13!important;
+                }
+                body.opr-print-body .opr-message{
+                  background:#fff8e8!important;
+                  color:#4b2e05!important;
+                  border:1px solid #e8c46d!important;
+                  border-left:5px solid #b87912!important;
+                }
+                body.opr-print-body .opr-block,
+                body.opr-print-body .opr-metric,
+                body.opr-print-body .opr-month,
+                body.opr-print-body .opr-pulse-step,
+                body.opr-print-body .opr-charts article,
+                body.opr-print-body .opr-footer-note{
+                  background:#fff!important;
+                  color:#201317!important;
+                  border-color:#d8c8c9!important;
+                  box-shadow:none!important;
+                }
+                body.opr-print-body .opr-topline p,
+                body.opr-print-body .opr-meta span,
+                body.opr-print-body .opr-block li,
+                body.opr-print-body .opr-metric span,
+                body.opr-print-body .opr-month li,
+                body.opr-print-body .opr-pulse-step p,
+                body.opr-print-body .opr-mini-donut span,
+                body.opr-print-body .opr-mini-legend,
+                body.opr-print-body .opr-mini-bars div,
+                body.opr-print-body .opr-footer-note{
+                  color:#4d3a3f!important;
+                }
+                body.opr-print-body .opr-meta span{
+                  background:#f8f0f1!important;
+                  border-color:#d8c8c9!important;
+                }
+                body.opr-print-body .opr-mini-donut > div{
+                  background:#fff!important;
+                  border-color:#d8c8c9!important;
+                }
+                body.opr-print-body .opr-mini-bars em,
+                body.opr-print-body .opr-mini-legend b,
+                body.opr-print-body .opr-mini-donut b{
+                  color:#201317!important;
+                }
+                body.opr-print-body .opr-mini-line text{
+                  fill:#4d3a3f!important;
+                }
+              }
+            </style>
+          </head>
+          <body class="opr-print-body">${sheet.outerHTML}</body>
+          </html>
+        `);
+        printDocument.close();
+
+        let didPrint = false;
+        const printSection = () => {
+          if (window.__skipOprPrint) return;
+          if (didPrint) return;
+          didPrint = true;
+          printFrame.contentWindow.focus();
+          printFrame.contentWindow.print();
+        };
+        printFrame.onload = () => setTimeout(printSection, 250);
+        setTimeout(printSection, 700);
+      });
+
+      const formatPercent = (value, max) => `${Math.max(0, Math.min(100, (value / max) * 100)).toFixed(2)}%`;
+      const renderDonut = (chart) => {
+        const total = chart.slices.reduce((sum, slice) => sum + slice.value, 0);
+        let cursor = 0;
+        const stops = chart.slices.map((slice) => {
+          const start = (cursor / total) * 100;
+          cursor += slice.value;
+          const end = (cursor / total) * 100;
+          return `${slice.color} ${start}% ${end}%`;
+        }).join(", ");
+        return `
+          <div class="chart-donut" style="--donut:${stops}">
+            <div><b>${total}</b><span>${chart.totalLabel}</span></div>
+          </div>
+          <div class="chart-legend">
+            ${chart.slices.map((slice) => `
+              <div><i style="background:${slice.color}"></i><span>${slice.label}</span><b>${slice.value}</b></div>
+            `).join("")}
+          </div>
+        `;
+      };
+      const renderBar = (chart) => {
+        const max = Math.max(...chart.bars.map((bar) => bar.value));
+        return `
+          <div class="bar-chart">
+            ${chart.bars.map((bar) => `
+              <div class="bar-row">
+                <span>${bar.label}</span>
+                <div class="bar-track"><i style="width:${formatPercent(bar.value, max)}"></i></div>
+                <b>${bar.value}${chart.unit === "%" ? "%" : ""}</b>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      };
+      const renderLine = (chart) => {
+        const width = 520;
+        const height = 210;
+        const pad = 30;
+        const max = 100;
+        const step = (width - pad * 2) / (chart.points.length - 1);
+        const points = chart.points.map((point, idx) => {
+          const x = pad + idx * step;
+          const y = height - pad - ((point.value / max) * (height - pad * 2));
+          return { ...point, x, y };
+        });
+        return `
+          <svg class="line-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="${chart.title}">
+            <path d="M ${pad} ${height - pad} H ${width - pad}" />
+            <path d="M ${pad} ${pad} V ${height - pad}" />
+            <polyline points="${points.map((point) => `${point.x},${point.y}`).join(" ")}" />
+            ${points.map((point) => `
+              <circle cx="${point.x}" cy="${point.y}" r="5" />
+              <text x="${point.x}" y="${height - 8}" text-anchor="middle">${point.label}</text>
+              <text x="${point.x}" y="${point.y - 12}" text-anchor="middle">${point.value}</text>
+            `).join("")}
+          </svg>
+        `;
+      };
+      const renderOprDonut = (chart) => {
+        const total = chart.slices.reduce((sum, slice) => sum + slice.value, 0);
+        let cursor = 0;
+        const stops = chart.slices.map((slice) => {
+          const start = (cursor / total) * 100;
+          cursor += slice.value;
+          const end = (cursor / total) * 100;
+          return `${slice.color} ${start}% ${end}%`;
+        }).join(", ");
+        return `
+          <div class="opr-mini-donut" style="--donut:${stops}">
+            <div><b>${total}</b><span>signals</span></div>
+          </div>
+          <div class="opr-mini-legend">
+            ${chart.slices.map((slice) => `<span><i style="background:${slice.color}"></i>${slice.label}</span>`).join("")}
+          </div>
+        `;
+      };
+      const renderOprBars = (chart) => {
+        const max = 100;
+        return `
+          <div class="opr-mini-bars">
+            ${chart.bars.map((bar) => `
+              <div>
+                <span>${bar.label}</span>
+                <i><b style="width:${formatPercent(bar.value, max)}"></b></i>
+                <em>${bar.value}%</em>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      };
+      const renderOprLine = (chart) => {
+        const width = 300;
+        const height = 110;
+        const pad = 16;
+        const step = (width - pad * 2) / (chart.points.length - 1);
+        const points = chart.points.map((point, idx) => {
+          const x = pad + idx * step;
+          const y = height - pad - ((point.value / 100) * (height - pad * 2));
+          return { ...point, x, y };
+        });
+        return `
+          <svg class="opr-mini-line" viewBox="0 0 ${width} ${height}" role="img" aria-label="${chart.title}">
+            <polyline points="${points.map((point) => `${point.x},${point.y}`).join(" ")}" />
+            ${points.map((point) => `
+              <circle cx="${point.x}" cy="${point.y}" r="3" />
+              <text x="${point.x}" y="${height - 3}" text-anchor="middle">${point.label}</text>
+            `).join("")}
+          </svg>
+        `;
+      };
+      document.querySelector("[data-opr-charts]").innerHTML = `
+        <article><h2>${opr.charts.workMix.title}</h2>${renderOprDonut(opr.charts.workMix)}</article>
+        <article><h2>${opr.charts.readiness.title}</h2>${renderOprBars(opr.charts.readiness)}</article>
+        <article><h2>${opr.charts.maturity.title}</h2>${renderOprLine(opr.charts.maturity)}</article>
+      `;
+      const renderMonthlyTimeline = (items, compact = false) => items.map((month) => `
+        <article class="${compact ? "opr-month" : "detail-month"}">
+          <div>
+            <strong>${month.month}</strong>
+            <span>${month.label}</span>
+          </div>
+          <ul>${month.items.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </article>
+      `).join("");
+      const renderPulseRoadmap = (items, compact = false) => items.map((phase) => `
+        <article class="${compact ? "opr-pulse-step" : "pulse-step"}">
+          <strong>${phase.phase}</strong>
+          <h3>${phase.title}</h3>
+          <p>${phase.detail}</p>
+        </article>
+      `).join("");
+      document.querySelector("[data-opr-monthly]").innerHTML = renderMonthlyTimeline(opr.monthlyTimeline, true);
+      document.querySelector("[data-opr-pulse]").innerHTML = renderPulseRoadmap(opr.pulseRoadmap, true);
+      document.querySelector("[data-detail-monthly]").innerHTML = renderMonthlyTimeline(opr.monthlyTimeline);
+      document.querySelector("[data-detail-pulse]").innerHTML = renderPulseRoadmap(opr.pulseRoadmap);
+      document.querySelector("[data-dashboard]").innerHTML = app.dashboard.charts.map((chart) => `
+        <article class="chart-card">
+          <div class="chart-head">
+            <div>
+              <h3>${chart.title}</h3>
+              <p>${chart.subtitle}</p>
+            </div>
+            <span>${chart.type}</span>
+          </div>
+          ${chart.type === "donut" ? renderDonut(chart) : chart.type === "line" ? renderLine(chart) : renderBar(chart)}
+        </article>
+      `).join("");
+
+      const sourceGrid = document.querySelector("[data-source-grid]");
+      sourceGrid.innerHTML = app.sources.map((source) => `
+        <article class="source-card">
+          <div class="name">${source.name}</div>
+          <div class="desc">${source.desc}</div>
+          <div class="meta-line">
+            ${source.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+          </div>
+        </article>
+      `).join("");
+
+      const summaryGrid = document.querySelector("[data-summary-grid]");
+      summaryGrid.innerHTML = app.summaryBlocks.map((block) => `
+        <article class="summary-card">
+          <h3>${block.title}</h3>
+          <ul>${block.items.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </article>
+      `).join("");
+
+      const toc = document.querySelector("[data-toc]");
+      const tocItems = [
+        ["OPR", "opr", "A4 one-page report"],
+        ["Dashboard", "dashboard", "charts + executive view"],
+        ["Timeline Map", "timeline-map", "monthly executive map"],
+        ["Pulse", "pulse-roadmap", "10-18 month program"],
+        ["ภาพรวม", "source-map", "source map + context"],
+        ["Foundation", "foundation", "ต้นปี 2026"],
+        ["April", "april", "24, 25, 27, 29 เม.ย."],
+        ["May", "may", "งานหนาแน่นที่สุด"],
+        ["June", "june", "1, 3 มิ.ย."],
+        ["สรุปหมวด", "summary", "5 work streams"],
+        ["สถานะค้าง", "status", "next steps"],
+      ];
+      toc.innerHTML = tocItems.map(([label, id, hint]) => `
+        <li>
+          <a href="#${id}">${label}</a>
+          <small>${hint}</small>
+        </li>
+      `).join("");
+
+      const timeline = document.querySelector("[data-timeline]");
+      const groups = [
+        {
+          id: "foundation",
+          label: "Foundation",
+          subtitle: "ช่วงต้นปีที่ยังไม่มี timestamp รายวันครบ แต่มีหลักฐานชัดว่ากำลังวางรากฐานระบบ",
+          chip: "ต้นปี 2026",
+          entries: app.timeline.filter((item) => item.monthLabel === "ก.พ. 2026" || item.monthLabel === "ก.พ.–มี.ค. 2026"),
+        },
+        {
+          id: "april",
+          label: "April",
+          subtitle: "งาน HR core และ security hardening ที่ปิดระบบสำคัญก่อนเข้าสู่เดือนพฤษภาคม",
+          chip: "24, 25, 27, 29 เม.ย.",
+          entries: app.timeline.filter((item) => item.monthLabel.endsWith("เม.ย. 2569")),
+        },
+        {
+          id: "may",
+          label: "May",
+          subtitle: "เดือนที่หนาแน่นที่สุด ทั้ง strategy, credential, document, UI และ sales support",
+          chip: "1 - 30 พ.ค.",
+          entries: app.timeline.filter((item) => item.monthLabel.endsWith("พ.ค. 2569")),
+        },
+        {
+          id: "june",
+          label: "June",
+          subtitle: "งานปิดลูปและสรุปรายงาน",
+          chip: "1, 3 มิ.ย.",
+          entries: app.timeline.filter((item) => item.monthLabel.endsWith("มิ.ย. 2569")),
+        },
+      ];
+
+      timeline.innerHTML = groups.map((group) => `
+        <section class="section panel" id="${group.id}">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">${group.label}</h2>
+              <div class="section-sub">${group.subtitle}</div>
+            </div>
+            <div class="section-chip">${group.chip}</div>
+          </div>
+          <div class="timeline">
+            ${group.entries.map((entry) => `
+              <article class="day-card">
+                <span class="day-line"></span>
+                <span class="day-dot"></span>
+                <div class="day-date">
+                  <span class="day-num">${entry.day}</span>
+                  <span class="day-dow">${entry.dow}</span>
+                </div>
+                <div class="day-content">
+                  <div class="day-tags">
+                    ${entry.tagLabels.map((label, idx) => `<span class="tag ${entry.tags[idx] || ""}">${label}</span>`).join("")}
+                  </div>
+                  <h3 class="day-title">${entry.title}</h3>
+                  <ul class="day-items">${entry.items.map((item) => `<li>${item}</li>`).join("")}</ul>
+                  ${entry.note ? `<div class="day-note">${entry.note}</div>` : ""}
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `).join("");
+
+      const summaryArea = document.querySelector("[data-category-summary]");
+      summaryArea.innerHTML = app.categorySummary.map((row) => `
+        <tr>
+          <td><b>${row.title}</b></td>
+          <td>${row.desc}</td>
+          <td>${row.dates}</td>
+        </tr>
+      `).join("");
+
+      const statusList = document.querySelector("[data-status]");
+      statusList.innerHTML = app.status.map((line) => `<li>${line}</li>`).join("");
+    });
+  </script>
+</head>
+<body>
+  <button class="download-pdf" type="button" data-download-pdf>Download PDF</button>
+  <div class="shell">
+    <section class="opr-sheet" id="opr">
+      <div class="opr-topline">
+        <div>
+          <p class="kicker">Section 1 · CEO Quick Read</p>
+          <div class="opr-report-title" data-opr-report-title></div>
+          <h1 data-opr-title></h1>
+          <p data-opr-subtitle></p>
+        </div>
+        <div class="opr-meta">
+          <span data-opr-window></span>
+          <span data-opr-owner></span>
+        </div>
+      </div>
+      <div class="opr-message" data-opr-message></div>
+      <div class="opr-metrics" data-opr-metrics></div>
+      <div class="opr-month-map" data-opr-monthly></div>
+      <div class="opr-grid opr-grid-tight">
+        <div class="opr-block opr-block-compact">
+          <h2>Key Work Delivered</h2>
+          <ul data-opr-highlights></ul>
+        </div>
+        <div class="opr-block opr-block-compact">
+          <h2>Pulse 10-18M Program</h2>
+          <div class="opr-pulse-roadmap" data-opr-pulse></div>
+        </div>
+      </div>
+      <div class="opr-charts opr-charts-compact" data-opr-charts></div>
+      <div class="opr-footer-note">
+        PDF layout: หน้าแรกถูกออกแบบเป็น A4 executive one-page report ส่วน section 2 เป็น appendix/detail สำหรับตรวจย้อนหลัง
+      </div>
+    </section>
+
+    <section class="detail-section" id="detail">
+      <div class="section-label">Section 2 · Full Detail + Dashboard</div>
+      <section class="hero">
+        <p class="kicker">EBCI NEXT · Work Chronicle</p>
+        <h1 data-title></h1>
+        <p class="subtitle" data-subtitle></p>
+        <div class="meta">
+          <span class="pill"><span class="dot"></span><span data-period></span></span>
+          <span class="pill"><span class="dot"></span>Timezone: <span data-timezone></span></span>
+          <span class="pill"><span class="dot"></span>4 source files merged</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><b data-source-count></b><span>ไฟล์ต้นทางที่รวมเข้าด้วยกัน</span></div>
+          <div class="stat"><b data-explicit-count></b><span>วันที่ที่ยืนยันได้แบบรายวัน</span></div>
+          <div class="stat"><b data-card-count></b><span>timeline cards ในรายงาน</span></div>
+          <div class="stat"><b data-stream-count></b><span>work streams หลัก</span></div>
+        </div>
+      </section>
+
+      <div class="layout">
+        <aside class="panel toc">
+          <h2>สารบัญ</h2>
+          <ol data-toc></ol>
+        </aside>
+
+        <main class="content">
+          <section class="section panel" id="dashboard">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">Executive Dashboard</h2>
+                <div class="section-sub">กราฟชุดนี้ช่วยอ่านรายงานยาวให้เร็วขึ้น: สัดส่วนงาน, ความหนาแน่นรายเดือน, maturity และ readiness ของแผนถัดไป</div>
+              </div>
+              <div class="section-chip">donut · bar · line</div>
+            </div>
+            <div class="dashboard-grid" data-dashboard></div>
+          </section>
+
+          <section class="section panel" id="timeline-map">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">Monthly Timeline Map</h2>
+                <div class="section-sub">เรียงภาพรวมรายเดือนตั้งแต่ Foundation, Pilot, Go-live ไปจนถึง Pulse program 10-18 เดือน</div>
+              </div>
+              <div class="section-chip">month-by-month</div>
+            </div>
+            <div class="detail-month-map" data-detail-monthly></div>
+          </section>
+
+          <section class="section panel" id="pulse-roadmap">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">Pulse 10-18 Month Program</h2>
+                <div class="section-sub">หลัง Nexus เปิดใช้งานจริง แผนถัดไปคือรื้อระบบบัญชี EBCI และเปลี่ยนผ่านเป็น Pulse ซึ่งน่าจะใช้เวลาไม่ต่ำกว่า 10-18 เดือน</div>
+              </div>
+              <div class="section-chip">accounting revolution</div>
+            </div>
+            <div class="pulse-roadmap" data-detail-pulse></div>
+            <div class="note">
+              Pulse ไม่ควรถูกมองเป็นแค่ dashboard บัญชี แต่เป็นโปรแกรมเปลี่ยนระบบทำงานบัญชีทั้งชั้นข้อมูล, workflow, audit, dashboard และ management reporting ของ EBCI
+            </div>
+          </section>
+
+          <section class="section panel" id="source-map">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">Source Map</h2>
+                <div class="section-sub">ไฟล์ต้นทางทั้ง 4 อันถูกใช้เป็นหลักฐานร่วมกัน ไม่ได้หยิบมาทีละชิ้นแบบแยกขาด</div>
+              </div>
+              <div class="section-chip">cross-source synthesis</div>
+            </div>
+            <div class="source-grid" data-source-grid></div>
+            <div class="note">
+              จุดประสงค์ของหน้านี้ไม่ใช่แค่ทำ “สรุปงาน” แต่คือทำให้มองเห็นว่าแต่ละไฟล์ช่วยเติมคนละมุม:
+              <b>gptreport1</b> ให้รายละเอียดวันต่อวัน, <b>ebci-day-by-day-report</b> ให้โครง HR/operations,
+              <b>claude-ebci-timeline</b> ให้รากฐานต้นปี, และ <b>gemini</b> ช่วยยืนยันโทนถ้อยคำของรายงานทางการ
+            </div>
+          </section>
+
+          <section class="section panel">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">Overall Summary</h2>
+                <div class="section-sub">ภาพรวมที่รวมจากทั้งหมดก่อนลงไปดูวันที่ทีละวัน</div>
+              </div>
+              <div class="section-chip">report overview</div>
+            </div>
+            <div class="summary-grid" data-summary-grid></div>
+          </section>
+
+          <div data-timeline></div>
+
+          <section class="section panel" id="summary">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">Summary by Category</h2>
+                <div class="section-sub">จัดกลุ่มงานตาม 5 หมวดหลักที่ user ขอไว้</div>
+              </div>
+              <div class="section-chip">categories</div>
+            </div>
+            <div style="overflow:auto">
+              <table class="summary-table" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+                <thead>
+                  <tr>
+                    <th align="left" style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.16)">หมวด</th>
+                    <th align="left" style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.16)">ภาพรวมสิ่งที่ทำ</th>
+                    <th align="left" style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.16)">วันที่ที่พบใน report</th>
+                  </tr>
+                </thead>
+                <tbody data-category-summary></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section panel" id="status">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">สถานะค้าง</h2>
+                <div class="section-sub">สิ่งที่ยังควรต่อยอดถ้าจะขยาย repo นี้ต่อ</div>
+              </div>
+              <div class="section-chip">next steps</div>
+            </div>
+            <ul class="status-list" data-status></ul>
+            <div class="note">
+              ถ้าจะทำรอบถัดไป ผมแนะนำให้แยก `data.js` ไปเป็น JSON/MD source, เพิ่ม filter ตามหมวด, และทำ print mode ให้คมขึ้นอีกนิดสำหรับ export เป็น PDF.
+            </div>
+          </section>
+
+          <footer>
+            Prepared for Pond Suriya · Generated from four HTML sources · Ready to deploy on ebcinext.com
+          </footer>
+        </main>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
