@@ -410,7 +410,7 @@
           </div>
           <div class="timeline">
             ${group.entries.map((entry) => `
-              <article class="day-card">
+              <article class="day-card" data-tags="${entry.tags.join(" ")}">
                 <span class="day-line"></span>
                 <span class="day-dot"></span>
                 <div class="day-date">
@@ -430,6 +430,62 @@
           </div>
         </section>
       `).join("");
+
+      // Filter functionality
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const dayCards = document.querySelectorAll(".day-card");
+      const timelineSections = document.querySelectorAll("[data-timeline] > section");
+
+      const updateLastVisibleLines = () => {
+        timelineSections.forEach((section) => {
+          // Remove last-visible class from all cards in this section
+          const cards = section.querySelectorAll(".day-card");
+          cards.forEach((card) => card.classList.remove("last-visible"));
+
+          // Find only visible cards
+          const visibleCards = section.querySelectorAll(".day-card:not(.hidden)");
+          if (visibleCards.length > 0) {
+            // Mark the last visible card so its line is hidden
+            visibleCards[visibleCards.length - 1].classList.add("last-visible");
+          }
+        });
+      };
+
+      // Set initial last-visible classes
+      updateLastVisibleLines();
+
+      filterButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // Toggle active classes on buttons
+          filterButtons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const filter = btn.getAttribute("data-filter");
+
+          // Show / Hide cards
+          dayCards.forEach((card) => {
+            const tags = card.getAttribute("data-tags").split(" ");
+            if (filter === "all" || tags.includes(filter)) {
+              card.classList.remove("hidden");
+            } else {
+              card.classList.add("hidden");
+            }
+          });
+
+          // Show / Hide sections (if zero visible cards)
+          timelineSections.forEach((section) => {
+            const visibleCards = section.querySelectorAll(".day-card:not(.hidden)");
+            if (visibleCards.length === 0) {
+              section.style.display = "none";
+            } else {
+              section.style.display = "";
+            }
+          });
+
+          // Recalculate last-visible line for the filtered view
+          updateLastVisibleLines();
+        });
+      });
 
       const summaryArea = document.querySelector("[data-category-summary]");
       summaryArea.innerHTML = app.categorySummary.map((row) => `
@@ -567,6 +623,24 @@
               <div class="section-chip">report overview</div>
             </div>
             <div class="summary-grid" data-summary-grid></div>
+          </section>
+
+          <section class="section panel filter-panel" id="filter-section">
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">Filter by Category</h2>
+                <div class="section-sub">เลือกหมวดงานเพื่อกรองดูเฉพาะการ์ด timeline ที่เกี่ยวข้อง</div>
+              </div>
+              <div class="section-chip">timeline filter</div>
+            </div>
+            <div class="filter-group">
+              <button class="filter-btn active" data-filter="all">All Work</button>
+              <button class="filter-btn" data-filter="cat1">EBCI Transformation</button>
+              <button class="filter-btn" data-filter="cat2">Presentation / Credential</button>
+              <button class="filter-btn" data-filter="cat3">Book / Thai History</button>
+              <button class="filter-btn" data-filter="cat7">Documents & Data</button>
+              <button class="filter-btn" data-filter="cat11">UI & Display</button>
+            </div>
           </section>
 
           <div data-timeline></div>

@@ -1,4 +1,4 @@
-window.SURIYA_EBCI_WORK = {
+{
   "title": "Suriya × EBCI Work Report",
   "subtitle": "รายงาน day-by-day แบบละเอียดที่สุดจากไฟล์ HTML ต้นทาง 4 ชิ้น โดยจัดโทน maroon/gold ให้ใกล้กับ gptreport1 และเรียงงานตามลำดับเวลาเพื่อให้ส่งต่อ/อ้างอิงต่อได้ง่าย",
   "period": "ก.พ. – 3 มิ.ย. 2026",
@@ -1044,4 +1044,4 @@ window.SURIYA_EBCI_WORK = {
     "หลัง Nexus go-live จะเดินหน้ารื้อระบบบัญชี EBCI และเปลี่ยนผ่านเป็น EBCI Pulse ซึ่งเป็น accounting revolution ของบริษัท",
     "ถ้าจะต่อยอดรอบหน้า ควรแยก data ไปเป็น JSON/MD และเพิ่ม timeline filter ตามหมวดงาน"
   ]
-};
+}

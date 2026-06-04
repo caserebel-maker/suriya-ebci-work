@@ -1233,6 +1233,11 @@ h1{
   grid-template-columns:72px minmax(0,1fr);
   gap:0 18px;
   position:relative;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 1200px;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  overflow: hidden;
 }
 
 .day-card + .day-card{
@@ -1421,9 +1426,77 @@ footer{
   .bar-row{grid-template-columns:88px minmax(0,1fr) 38px}
 }
 
+/* Filter Styles */
+.filter-panel {
+  margin-top: 18px;
+}
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.filter-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  color: var(--muted);
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+.filter-btn.active {
+  background: var(--gold-2);
+  border-color: var(--gold-2);
+  color: #1d0a0d;
+  box-shadow: 0 4px 12px rgba(245, 200, 66, 0.28);
+}
+
+/* Card Show/Hide Animation States */
+.day-card.hidden {
+  opacity: 0 !important;
+  transform: scale(0.96) translateY(-8px) !important;
+  max-height: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  pointer-events: none !important;
+  border-width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Timeline Sibling Spacing Adjustments when filtering */
+.day-card.hidden + .day-card {
+  margin-top: 0 !important;
+}
+
+/* Hide dangled timeline vertical lines */
+.day-card.last-visible .day-line {
+  display: none !important;
+}
+
+/* Mobile responsive styling for filter buttons */
+@media (max-width: 760px) {
+  .filter-group {
+    gap: 6px;
+  }
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 11.5px;
+  }
+}
+
 @media print{
   @page{size:A4;margin:10mm}
-  .download-pdf{display:none}
+  .download-pdf, .filter-panel { display: none !important; }
   body{
     background:#fff;
     color:#111;

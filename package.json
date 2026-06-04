@@ -1,16 +1,48 @@
 {
-  "name": "ebci-work-timeline",
+  "name": "nexus",
+  "version": "0.1.1",
   "private": true,
-  "version": "1.0.0",
-  "description": "Static repo for the Suriya EBCI work report timeline.",
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "scripts": {
-    "dev": "python3 -m http.server 4173",
-    "serve": "python3 -m http.server 4173",
-    "build:wp": "node scripts/build-wordpress-content.mjs",
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "build:data": "node scripts/compile-data.mjs",
+    "build:wp": "npm run build:data && node scripts/build-wordpress-content.mjs",
     "publish:wp": "npm run build:wp && node scripts/publish-wordpress-page.mjs",
-    "check": "echo 'No automated checks configured yet.'"
+    "serve:wp": "python3 -m http.server 4173"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "@supabase/supabase-js": "^2.93.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.563.0",
+    "next": "15.1.0",
+    "next-themes": "^0.4.6",
+    "nodemailer": "^7.0.13",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-hook-form": "^7.71.1",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "playwright": "^1.60.0"
+    "@prisma/client": "^5.22.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/nodemailer": "^7.0.9",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
   }
 }
