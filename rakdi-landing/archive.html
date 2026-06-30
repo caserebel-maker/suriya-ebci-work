@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>คลังหลักสูตรสัมมนาในอดีต - RAKDI</title>
+  <meta name="description" content="สถาบันวิจัยและพัฒนาความรู้ RAKDI — ประวัติการจัดอบรมหลักสูตรต่างๆ ที่ผ่านมา" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css?v=1.2.0" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════
+       FLOATING NAV
+  ════════════════════════════════════════ -->
+  <header class="floating-nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="./" class="nav-logo">
+        <img src="./rdlogo1-4.png" alt="RAKDI" />
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#about">เกี่ยวกับเรา</a>
+        <a href="index.html#courses">หลักสูตร</a>
+        <a href="index.html#achievements">ผลงาน</a>
+        <a href="index.html#contact" class="nav-cta">สมัครอบรม</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════
+       MAIN ARCHIVE SECTION
+  ════════════════════════════════════════ -->
+  <main style="padding-top: 120px; padding-bottom: 80px; min-height: 80vh; background: var(--bg-primary);">
+    <div class="container">
+      
+      <!-- Breadcrumb -->
+      <div style="margin-bottom: 24px;">
+        <a href="index.html" style="display: inline-flex; align-items: center; gap: 8px; color: var(--maroon); text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: var(--transition);" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--maroon)'">
+          &larr; กลับสู่หน้าหลัก
+        </a>
+      </div>
+
+      <!-- Section Header -->
+      <div class="section-head reveal visible" style="margin-bottom: 48px; text-align: center;">
+        <span class="label">PAST SEMINARS & PORTFOLIO</span>
+        <h2>คลังหลักสูตรที่ <span class="text-accent">เสร็จสิ้นแล้ว</span></h2>
+        <p style="max-width: 600px; margin: 12px auto 0; color: var(--text-secondary); font-size: 1rem;">ประวัติการจัดอบรมสัมมนาและหลักสูตรต่างๆ ของสถาบัน RAKDI ในช่วงเวลาที่ผ่านมา พร้อมข้อมูลเอกสารดาวน์โหลดและภาพบรรยากาศ</p>
+      </div>
+
+      <!-- Archive Course Grid -->
+      <div class="course-grid" id="courseGrid"></div>
+      
+    </div>
+  </main>
+
+  <!-- ════════════════════════════════════════
+       COURSE DETAIL MODAL
+  ════════════════════════════════════════ -->
+  <div class="modal-overlay" id="courseModal">
+    <div class="modal-panel" id="modalPanel">
+      <button class="modal-close" id="modalClose" aria-label="ปิด">&times;</button>
+      <div id="modalContent"><!-- JS renders here --></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo-silver" role="img" aria-label="RAKDI"></div>
+        <p>สถาบันวิจัยและพัฒนาความรู้ RAKDI ภายใต้เครือ บริษัท อีบีซีไอ จำกัด</p>
+      </div>
+      <div class="footer-copy">© 2026 RAKDI by EBCI Ltd. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       JAVASCRIPT — Data, Rendering, Interactions
+  ═══════════════════════════════════════ -->
+  <script>
+  /* ───────────────────────────────────
+     COURSES DATA
+  ─────────────────────────────────── */
+  const COURSES = [
+    {
+      id: "global-warming-hr-2026",
+      status: "completed",
+      title: "โลกร้อนเปลี่ยนโลก HR ต้องรีบปรับตัว",
+      subtitle: "ความสำคัญและบทบาทของ HR กับการส่งเสริมการลดภาวะโลกร้อน",
+      batch: "โครงการอบรมพิเศษ",
+      category: "SUSTAINABILITY / HR",
+      image: "./global-warming-hr-2026.png",
+      imageFit: "contain",
+      date: "พฤหัสบดีที่ 12 มีนาคม 2569 | 08.00-16.30 น.",
+      location: "ห้อง Chamber I ชั้น Basement โรงแรม S31 Sukhumvit Hotel (ซอยสุขุมวิท 31)",
+      price: "3,200 บาท / ท่าน",
+      rating: null,
+      description: "อบรมพิเศษเรื่องบทบาทของ HR ในการสร้างความเข้าใจ การมีส่วนร่วม และการปรับพฤติกรรมของบุคลากรเพื่อสนับสนุนกิจกรรมลดภาวะโลกร้อนและความยั่งยืนขององค์กร",
+      summary: "หลักสูตรที่ผ่านมาแล้ว จัดอบรม 6 ชั่วโมง รูปแบบภาคความรู้ 50% และภาคปฏิบัติ 50% ครอบคลุมบทบาท HR ในเชิงยุทธศาสตร์ นโยบาย การสื่อสาร การเก็บข้อมูล และ Case Study สำหรับการลดภาวะโลกร้อนในองค์กร",
+      details: {
+        topics: [
+          "ความหมายและความสำคัญของการลดภาวะโลกร้อน",
+          "บทบาทของ HR ในเชิงยุทธศาสตร์ นโยบาย และเชิงปฏิบัติ",
+          "การสร้างความเข้าใจ การสื่อสาร และการมีส่วนร่วมของบุคลากร",
+          "ประสบการณ์จริงในการปรับตัวต่อการปลดปล่อยก๊าซเรือนกระจกสุทธิเป็นศูนย์",
+          "การพัฒนาบุคลากรและเสริมสร้างแรงจูงใจด้าน Net Zero",
+          "บทบาท HR ในการวิเคราะห์และจัดเก็บข้อมูลที่เกี่ยวข้อง",
+          "แบ่งกลุ่มทำ Case Study"
+        ],
+        speakers: [
+          { name: "รศ.ดร.หาญพล พึ่งรัศมี", role: "หัวหน้าศูนย์ความเป็นเลิศทางด้านพลังงานเชิงนิเวศเศรษฐกิจ ภาควิชาวิศวกรรมเคมี คณะวิศวกรรมศาสตร์ มหาวิทยาลัยธรรมศาสตร์ / ผู้ทวนสอบ Carbon Footprint of Product: CFP Verifier" },
+          { name: "ดร.ศรุดา ศิริภัทรปรีชา", role: "กรรมการบริหารและผู้จัดการฝ่ายพัฒนาองค์กรที่ยั่งยืน บริษัท ฟอร์จูน พาร์ท อินดัสตรี้ จำกัด (มหาชน)" },
+          { name: "ดร.ศิริพร กาฬกาญจน์", role: "บริษัท วิทย์คอร์ป โปรดักส์ จำกัด / ผู้จัดการฝ่ายระบบมาตรฐานองค์กรและการพัฒนาความยั่งยืน / ที่ปรึกษาฝ่ายเทคโนโลยีสารสนเทศและทรัพยากรมนุษย์ / เหรัญญิก ECONTHAI" },
+          { name: "อาจารย์สายัณห์ จันทร์วิภาสวงศ์", role: "ประธานกรรมการและประธานเจ้าหน้าที่บริหาร ผู้อำนวยการสถาบัน RAKDI บริษัท เอ็กซ์เซลเล้นท์ บิสเนส คอร์ปอร์เรชั่น อินเตอร์แนชชั่นแนล จำกัด" }
+        ],
+        benefits: []
+      },
+      downloads: [
+        { label: "รายละเอียดหลักสูตรเดิม", url: "https://ebcinext.com/seminar#78796d60a279562d2", ext: "LINK" }
+      ],
+      gallery: [
+        "./global-warming-hr-2026.png"
+      ]
+    },
+    {
+      id: "5-guru-logistics-2026",
+      status: "open",
+      title: "เทคนิคการสมัครงานด้าน Logistics (ภาคปฏิบัติ)",
+      subtitle: "ฟังตัวจริง เสียงจริง ประสบการณ์จริง 5 กูรูโลจิสติกส์ของประเทศไทย",
+      batch: "",
+      category: "LOGISTICS / SEMINAR",
+      image: "./5guru-poster-2026.png",
+      date: "25 สิงหาคม 2569 (13.30-16.00 น.)",
+      location: "ออนไลน์ผ่าน Zoom",
+      price: "ฟรี",
+      rating: null,
+      description: "เจาะลึกโลกงานโลจิสติกส์จริง จากประสบการณ์ผู้บริหารตัวจริง — การบรรยายพิเศษโดยวิทยากรพิเศษ 5 ท่าน ผู้บริหารระดับสูงจากบริษัทโลจิสติกส์ชั้นนำของไทย",
+      details: {
+        topics: [
+          "เจาะลึกเทคนิคการสมัครงานด้าน Logistics จากมุมมองผู้บริหาร",
+          "ประสบการณ์จริงจาก 5 กูรูโลจิสติกส์ของประเทศไทย",
+          "แนวโน้มอุตสาหกรรมโลจิสติกส์และโอกาสในสายงาน",
+          "ทักษะที่จำเป็นสำหรับวิชาชีพโลจิสติกส์ในยุคปัจจุบัน",
+          "เคล็ดลับการเตรียมตัวและสร้าง Profile ที่โดดเด่น",
+          "ถาม-ตอบกับวิทยากรแบบสด"
+        ],
+        speakers: [
+          { name: "คุณเกตติวิทย์ สิทธิ์สุนทรวงศ์", role: "ประธานเจ้าหน้าที่บริหาร บริษัท สโตโกลบอล โลจิสติกส์ จำกัด (มหาชน) / อดีตนายก TIFFA" },
+          { name: "คุณคุณวัลภา สถิรชวาล", role: "ประธานเจ้าหน้าที่บริหาร บริษัท ดีเอสวี แอร์ แอนด์ ซี (ประเทศไทย) จำกัด / ประธานสมาคมโลจิสติกส์ไทย" },
+          { name: "คุณสายัณห์ จันทร์วิภาสวงศ์", role: "ประธานเจ้าหน้าที่บริหาร บริษัท เอ็กซ์ ตอลเล็ม ดาเมส คอร์เรสปอนแดนต์ จำกัด / นักเขียน Best Seller ด้าน Logistics" },
+          { name: "ดร.ปิยะนุช สัมฤทธิ์", role: "ผู้บริหารและผู้ก่อตั้ง บริษัท วีเอ็ม แพลตเนอร์ส จำกัด / อดีตนายกสมาคมบรรจุภัณฑ์โลจิสติกส์ไทย" },
+          { name: "คุณชัยยงค์ เทียนวุฒิชัย", role: "กรรมการผู้จัดการ บริษัท เอพีซี โลจิสติคส์ (ไทย) จำกัด / ประธานอนุกรรมการด้านการขนส่งทางอากาศ สภาการค้าแห่งประเทศไทย" }
+        ],
+        benefits: ["ฟรีไม่มีค่าลงทะเบียน", "เรียนออนไลน์ผ่าน Zoom", "ถาม-ตอบสดกับวิทยากร", "ใบ Certificate เข้าร่วม"]
+      },
+      downloads: [],
+      gallery: []
+    },
+    {
+      id: "logistics-export-55",
+      status: "open",
+      title: "โลจิสติกส์เพื่อการส่งออก",
+      subtitle: "Logistics for Export",
+      batch: "รุ่นที่ 55",
+      category: "LOGISTICS / EXPORT",
+      image: "https://ebcinext.com/wp-content/uploads/2022/08/SeminarCover3-9-22.jpg",
+      date: "15-17 กรกฎาคม 2026",
+      location: "อาคาร EBCI กรุงเทพฯ",
+      price: "ฟรี",
+      rating: 4.9,
+      description: "เรียนรู้กลยุทธ์การส่งออก การบริหารโลจิสติกส์ และสิทธิประโยชน์ทางภาษีอากร จากวิทยากรมากประสบการณ์",
+      details: {
+        topics: [
+          "Incoterms® 2020 — หลักเกณฑ์การค้าระหว่างประเทศ",
+          "การขนส่งทางเรือ ทางอากาศ และ Multimodal",
+          "พิธีการศุลกากร (Customs Procedure)",
+          "สิทธิประโยชน์ภาษีอากรตาม ม.29, 19 ทวิ",
+          "Free Zone และคลังสินค้าทัณฑ์บน",
+          "Workshop: จำลองสถานการณ์การส่งออกจริง"
+        ],
+        speakers: [
+          { name: "ดร.ปรีชา เมืองมนต์", role: "ผู้เชี่ยวชาญศุลกากรอาวุโส" },
+          { name: "คุณสมหญิง ชัยวงศ์", role: "ที่ปรึกษาโลจิสติกส์ระหว่างประเทศ" }
+        ],
+        benefits: ["ใบ Certificate", "เอกสารประกอบการอบรม", "อาหาร & เครื่องดื่ม", "Networking กับผู้ประกอบการ"]
+      },
+      downloads: [],
+      gallery: []
+    },
+    {
+      id: "customs-tax-batch3",
+      status: "completed",
+      title: "พิธีการศุลกากรและสิทธิประโยชน์ภาษีอากร",
+      subtitle: "Customs Procedure & Tax Privileges",
+      batch: "รุ่นที่ 3",
+      category: "CUSTOMS / TAX",
+      image: "https://ebcinext.com/wp-content/uploads/2025/07/S__109150231.jpg",
+      date: "10-12 มกราคม 2026",
+      location: "อาคาร EBCI กรุงเทพฯ",
+      price: "ติดต่อสถาบัน",
+      rating: 4.8,
+      attendees: 45,
+      description: "สิทธิประโยชน์ภาษีตาม ม.29, คลังสินค้าทัณฑ์บน, Free Zone, 19 ทวิ และการลดข้อผิดพลาดในพิธีการศุลกากร",
+      summary: "อบรมเข้มข้น 3 วันเต็ม ผู้เข้าร่วม 45 คนจากหลากหลายองค์กร ผลประเมินความพึงพอใจ 4.8/5.0",
+      details: {
+        topics: [
+          "พิธีการศุลกากรส่งออก-นำเข้า",
+          "สิทธิประโยชน์ ม.29 และ 19 ทวิ",
+          "คลังสินค้าทัณฑ์บน & Free Zone",
+          "ข้อผิดพลาดที่พบบ่อยในพิธีการศุลกากร"
+        ],
+        speakers: [
+          { name: "ดร.ปรีชา เมืองมนต์", role: "ผู้เชี่ยวชาญศุลกากรอาวุโส" }
+        ],
+        benefits: []
+      },
+      downloads: [
+        { label: "รายชื่อผู้ผ่านการอบรม", url: "https://ebcinext.com/wp-content/uploads/2022/06/rakdiatt2.xlsx", ext: "XLSX" },
+        { label: "เอกสารประกอบการบรรยาย", url: "#", ext: "PDF" }
+      ],
+      gallery: [
+        "https://ebcinext.com/wp-content/uploads/2025/07/S__109150231.jpg",
+        "https://ebcinext.com/wp-content/uploads/2022/08/SeminarCover3-9-22.jpg",
+        "https://ebcinext.com/wp-content/uploads/2022/06/rakdiseminar1-1.jpeg"
+      ]
+    },
+    {
+      id: "inhouse-training",
+      status: "open",
+      title: "อบรมภายในองค์กร (In-house Training)",
+      subtitle: "Corporate In-house Training",
+      batch: "",
+      category: "CORPORATE / IN-HOUSE",
+      image: "https://ebcinext.com/wp-content/uploads/2022/06/rakdiseminar1-1.jpeg",
+      date: "ตามที่องค์กรกำหนด",
+      location: "จัดที่สถานที่ขององค์กร",
+      price: "ออกแบบเฉพาะองค์กร",
+      rating: 5.0,
+      description: "ออกแบบหลักสูตรเฉพาะสำหรับองค์กรของคุณ ครอบคลุม Incoterms, การขนส่งระหว่างประเทศ, คลังสินค้า และอื่นๆ",
+      details: {
+        topics: [
+          "Incoterms® 2020",
+          "การขนส่งระหว่างประเทศแบบ Multimodal",
+          "พิธีการศุลกากร & สิทธิประโยชน์",
+          "การบริหารคลังสินค้าอย่างมีประสิทธิภาพ",
+          "ออกแบบเนื้อหาเฉพาะตามความต้องการ"
+        ],
+        speakers: [],
+        benefits: ["หลักสูตรออกแบบเฉพาะ", "วิทยากรเชี่ยวชาญ", "ใบ Certificate ผู้เข้าร่วม", "เอกสารครบชุด"]
+      },
+      downloads: [],
+      gallery: []
+    },
+    {
+      id: "logistics-export-54",
+      status: "completed",
+      title: "โลจิสติกส์เพื่อการส่งออก",
+      subtitle: "Logistics for Export",
+      batch: "รุ่นที่ 54",
+      category: "LOGISTICS / EXPORT",
+      image: "https://ebcinext.com/wp-content/uploads/2022/08/SeminarCover3-9-22.jpg",
+      date: "5-7 พฤศจิกายน 2025",
+      location: "อาคาร EBCI กรุงเทพฯ",
+      price: "ฟรี",
+      rating: 4.9,
+      attendees: 38,
+      description: "หลักสูตรโลจิสติกส์เพื่อการส่งออก รุ่นที่ 54 จัดเสร็จสมบูรณ์ ผู้เข้าร่วม 38 คน",
+      summary: "จัดอบรมสำเร็จ 3 วัน มีผู้เข้าร่วม 38 คน ผลประเมินความพึงพอใจ 4.9/5.0",
+      details: {
+        topics: ["Incoterms® 2020", "การขนส่งทางเรือ ทางอากาศ", "พิธีการศุลกากร", "Workshop"],
+        speakers: [{ name: "ดร.ปรีชา เมืองมนต์", role: "ผู้เชี่ยวชาญศุลกากรอาวุโส" }],
+        benefits: []
+      },
+      downloads: [
+        { label: "รายชื่อผู้ผ่านการอบรม รุ่น 54", url: "#", ext: "XLSX" }
+      ],
+      gallery: [
+        "https://ebcinext.com/wp-content/uploads/2022/08/SeminarCover3-9-22.jpg",
+        "https://ebcinext.com/wp-content/uploads/2022/06/rakdiseminar1-1.jpeg"
+      ]
+    },
+    {
+      id: "incoterms-2026",
+      status: "coming_soon",
+      title: "Incoterms® 2020 Deep Dive",
+      subtitle: "เจาะลึก Incoterms สำหรับผู้ปฏิบัติงาน",
+      batch: "รุ่นที่ 1",
+      category: "INTERNATIONAL TRADE",
+      image: "https://ebcinext.com/wp-content/uploads/2025/07/S__109150231.jpg",
+      date: "กันยายน 2026 (ยังไม่กำหนดวันที่แน่นอน)",
+      location: "อาคาร EBCI กรุงเทพฯ",
+      price: "เร็วๆนี้",
+      rating: null,
+      description: "หลักสูตรใหม่! เจาะลึกทุกแง่มุมของ Incoterms® 2020 — ทั้งภาคทฤษฎีและ Workshop สำหรับผู้ปฏิบัติงานจริง",
+      details: {
+        topics: [
+          "ภาพรวม Incoterms® 2020 ทั้ง 11 เงื่อนไข",
+          "การเลือก Incoterms ที่เหมาะกับสินค้าแต่ละประเภท",
+          "ข้อผิดพลาดที่พบบ่อยในการใช้ Incoterms",
+          "Case Study จากการค้าจริง"
+        ],
+        speakers: [],
+        benefits: ["ใบ Certificate", "เอกสารประกอบ", "อาหาร & เครื่องดื่ม"]
+      },
+      downloads: [],
+      gallery: []
+    }
+  ];
+
+  const STATUS_MAP = {
+    open: { label: "เปิดรับสมัคร", ribbonClass: "", badgeClass: "status-open", icon: "🟢" },
+    completed: { label: "เสร็จสิ้นแล้ว", ribbonClass: "ribbon-completed", badgeClass: "status-completed", icon: "⚪" },
+    coming_soon: { label: "เร็วๆนี้", ribbonClass: "ribbon-coming", badgeClass: "status-coming", icon: "🟡" }
+  };
+
+  const grid = document.getElementById('courseGrid');
+
+  function getStatus(s) { return STATUS_MAP[s] || STATUS_MAP.open; }
+
+  // Render Completed Courses
+  function renderCards() {
+    const completedCourses = COURSES.filter(c => c.status === 'completed');
+    
+    if (completedCourses.length === 0) {
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">ไม่มีหลักสูตรเก่าเก็บในระบบขณะนี้</div>`;
+      return;
+    }
+
+    grid.innerHTML = completedCourses.map(c => {
+      const st = getStatus(c.status);
+      const ctaText = 'ดูผลงาน';
+      return `
+        <article class="course-card reveal visible" data-id="${c.id}" onclick="openModal('${c.id}')">
+          <div class="card-visual">
+            <img src="${c.image}" alt="${c.title}" loading="lazy" ${c.imageFit === 'contain' ? 'style="object-fit:contain;background:#f4f8fb;"' : ''} />
+            <div class="card-ribbon ${st.ribbonClass}">${st.label}</div>
+          </div>
+          <div class="card-content">
+            <span class="card-tag">${c.category}</span>
+            <h3>${c.title}${c.batch ? ' <small style="font-weight:400;color:var(--text-muted)">(' + c.batch + ')</small>' : ''}</h3>
+            <p>${c.description}</p>
+            <div class="card-bottom">
+              <div class="card-status-badge ${st.badgeClass}">${st.icon} ${st.label}</div>
+              ${c.rating ? `<span class="card-price">⭐ ${c.rating}/5</span>` : '<span class="card-price">' + (c.price || '') + '</span>'}
+            </div>
+            <button class="btn-card" type="button">${ctaText}</button>
+          </div>
+        </article>`;
+    }).join('');
+  }
+
+  // Modal Functionality
+  const modal = document.getElementById('courseModal');
+  const modalPanel = document.getElementById('modalPanel');
+  const modalContent = document.getElementById('modalContent');
+  const modalClose = document.getElementById('modalClose');
+
+  function openModal(courseId) {
+    const c = COURSES.find(x => x.id === courseId);
+    if (!c) return;
+
+    const st = getStatus(c.status);
+    let html = `
+      <img class="modal-hero-img" src="${c.image}" alt="${c.title}" ${c.imageFit === 'contain' ? 'style="object-fit:contain;background:#f4f8fb;"' : ''} />
+      <div class="modal-body">
+        <div class="modal-badge ${st.badgeClass}">${st.icon} ${st.label}</div>
+        <h3 class="modal-title">${c.title}</h3>
+        ${c.batch ? `<div class="modal-batch">คอร์ส: ${c.batch}</div>` : ''}
+        
+        <div class="modal-meta">
+          <div class="meta-item">
+            <span class="meta-label">วันที่จัด</span>
+            <span class="meta-value">${c.date}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">สถานที่</span>
+            <span class="meta-value">${c.location}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">ค่าลงทะเบียน</span>
+            <span class="meta-value">${c.price}</span>
+          </div>
+        </div>
+
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 24px;">${c.description}</p>
+    `;
+
+    // Summary of training (for completed)
+    if (c.status === 'completed' && c.summary) {
+      html += `
+        <h4 class="modal-section-title">สรุปผลการอบรม</h4>
+        <div style="background: var(--silver-light); padding: 16px; border-radius: 12px; margin-bottom: 24px; color: var(--text-dark); font-size: 0.95rem;">
+          ${c.summary}
+        </div>
+      `;
+    }
+
+    // Topics list
+    if (c.details && c.details.topics && c.details.topics.length) {
+      html += `<h4 class="modal-section-title">หัวข้อการบรรยาย</h4>`;
+      html += `<ul class="modal-topics">${c.details.topics.map(t => `<li>${t}</li>`).join('')}</ul>`;
+    }
+
+    // Speakers
+    if (c.details && c.details.speakers && c.details.speakers.length) {
+      html += `<h4 class="modal-section-title">วิทยากรประจำหลักสูตร</h4>`;
+      html += `<div class="modal-speakers">${c.details.speakers.map(s =>
+        `<div class="speaker-card">
+          <div class="speaker-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 12.5a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z"></path>
+              <path d="M4.8 20.2c.78-3.34 3.5-5.2 7.2-5.2s6.42 1.86 7.2 5.2"></path>
+              <path d="M17.2 7.2h3.1M18.75 5.65V8.8"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="speaker-name">${s.name}</div>
+            <div class="speaker-role">${s.role}</div>
+          </div>
+        </div>`
+      ).join('')}</div>`;
+    }
+
+    // Gallery (for completed)
+    if (c.gallery && c.gallery.length) {
+      html += `<h4 class="modal-section-title">ภาพบรรยากาศการอบรม</h4>`;
+      html += `<div class="modal-gallery">${c.gallery.map(img => `<img src="${img}" alt="บรรยากาศ" />`).join('')}</div>`;
+    }
+
+    // Downloads (for completed)
+    if (c.downloads && c.downloads.length) {
+      html += `<h4 class="modal-section-title">ดาวน์โหลดเอกสาร</h4>`;
+      html += `<div class="modal-downloads">${c.downloads.map(d =>
+        `<a href="${d.url}" class="download-item" target="_blank" rel="noopener">
+          <span class="download-icon">📄</span>
+          <span class="download-label">${d.label}</span>
+          <span class="download-ext">${d.ext}</span>
+        </a>`
+      ).join('')}</div>`;
+    }
+
+    // CTA Button to return to index.html#courses
+    html += `
+      <div class="modal-cta">
+        <button class="btn-modal-browse" onclick="window.location.href='index.html#courses'">ดูหลักสูตรปัจจุบันที่เปิดรับอยู่ &rarr;</button>
+      </div>
+    </div>`;
+
+    modalContent.innerHTML = html;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    window.location.hash = `course-${c.id}`;
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    history.replaceState(null, null, ' ');
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  // Init Rendering
+  renderCards();
+
+  // Handle URL deep links
+  window.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash.startsWith('#course-')) {
+      const id = window.location.hash.replace('#course-', '');
+      setTimeout(() => openModal(id), 300);
+    }
+  });
+
+  // Sticky nav and scroll animations
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  }, { passive: true });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

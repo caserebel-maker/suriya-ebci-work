@@ -14,7 +14,10 @@
     "build:data": "node scripts/compile-data.mjs",
     "build:wp": "npm run build:data && node scripts/build-wordpress-content.mjs",
     "publish:wp": "npm run build:wp && node scripts/publish-wordpress-page.mjs",
-    "serve:wp": "python3 -m http.server 4173"
+    "serve:wp": "python3 -m http.server 4173",
+    "backup:rakdi": "node scripts/backup-and-publish-rakdi2.mjs",
+    "build:rakdi": "node scripts/build-rakdi.mjs",
+    "publish:rakdi": "npm run build:rakdi && node scripts/publish-rakdi.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

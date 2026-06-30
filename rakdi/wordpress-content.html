@@ -1,0 +1,3243 @@
+<!-- wp:html -->
+<style>/* ============================================================
+   RAKDI Training Institute — Premium Stylesheet
+   Design System: Deep Maroon + Red accents on light canvas
+   Fonts: IBM Plex Sans Thai (all)
+   ============================================================ */
+
+/* ----- 0. CSS Custom Properties ----- */
+:root {
+  --bg-primary: #f6f8fa;
+  --bg-secondary: #ffffff;
+  --bg-dark: #240b0d;
+  --text-light: #fff7eb;
+  --text-dark: #2d1215;
+  --text-secondary: #583c3f;
+  --text-muted: #8c7678;
+  --maroon: #561e23;
+  --red: #c92233;
+  --silver: #dcdde1;
+  --silver-light: #f5f6fa;
+  --shadow-premium: 0 12px 30px rgba(86, 30, 35, 0.18), 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 20px 40px rgba(86, 30, 35, 0.32), 0 8px 20px rgba(0, 0, 0, 0.18);
+  --radius: 20px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ----- 1. Global Reset + Body ----- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'IBM Plex Sans Thai', 'Segoe UI', sans-serif;
+  color: var(--text-dark);
+  background: var(--bg-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ----- 2. Reveal Animations ----- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.8, 0.25, 1),
+              transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children – add data-delay or nth-child offsets */
+.reveal:nth-child(2) { transition-delay: 0.1s; }
+.reveal:nth-child(3) { transition-delay: 0.2s; }
+.reveal:nth-child(4) { transition-delay: 0.3s; }
+.reveal:nth-child(5) { transition-delay: 0.4s; }
+.reveal:nth-child(6) { transition-delay: 0.5s; }
+
+/* ----- 3. Floating Nav ----- */
+.floating-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 14px 24px;
+  transition: background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+}
+
+.floating-nav.scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 30px rgba(86, 30, 35, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 10px 24px;
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo img {
+  height: 42px;
+  width: auto;
+  transition: var(--transition);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-links a {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav-links a:not(.nav-cta)::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--red);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:not(.nav-cta):hover::after {
+  width: 100%;
+}
+
+.floating-nav.scrolled .nav-links a:not(.nav-cta) {
+  color: var(--maroon);
+}
+
+.floating-nav.scrolled .nav-links a:not(.nav-cta):hover {
+  color: var(--red);
+}
+
+.floating-nav.scrolled .nav-cta {
+  color: #fff;
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  background: var(--maroon);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.nav-cta:hover {
+  background: var(--red);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 34, 51, 0.25);
+}
+
+/* ----- 4. Hero Section ----- */
+.hero {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(36, 11, 13, 0.75) 0%,
+    rgba(86, 30, 35, 0.4) 100%
+  );
+  z-index: 1;
+}
+
+/* Decorative floating circles */
+.hero-shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(201, 34, 51, 0.08);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  right: 8%;
+  animation: float 8s ease-in-out infinite;
+}
+
+.shape-2 {
+  width: 200px;
+  height: 200px;
+  bottom: 15%;
+  left: 5%;
+  animation: float 10s ease-in-out infinite 1s;
+}
+
+.shape-3 {
+  width: 150px;
+  height: 150px;
+  top: 45%;
+  right: 25%;
+  animation: float 7s ease-in-out infinite 2s;
+}
+
+/* Hero content */
+.hero-body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+  max-width: 820px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 6px 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+
+.hero-accent {
+  background: linear-gradient(135deg, #ffffff 30%, var(--red) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.05rem;
+  max-width: 55ch;
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+
+.hero-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--red);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(201, 34, 51, 0.35);
+  transition: var(--transition);
+}
+
+.btn-glow:hover {
+  transform: scale(1.04);
+  filter: brightness(1.1);
+  box-shadow: 0 12px 40px rgba(201, 34, 51, 0.45);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: transparent;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+}
+
+/* Scroll hint at bottom of hero */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 2px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #fff;
+  border-radius: 2px;
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+.hide-mobile {
+  display: inline;
+}
+
+/* ----- 5. Stats Strip ----- */
+.stats-strip {
+  margin-top: -50px;
+  position: relative;
+  z-index: 10;
+  padding: 0 24px;
+}
+
+.stats-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-premium);
+  border: 1px solid var(--silver);
+  overflow: hidden;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px 20px;
+}
+
+.stat h3 {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--maroon);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-plus,
+.stat-unit {
+  color: var(--red);
+}
+
+.stat p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 48px;
+  background: var(--silver);
+  flex-shrink: 0;
+}
+
+/* ----- 6. Container + Two-col ----- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* ----- 7. Section Labels + Headings ----- */
+.label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: var(--maroon);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.text-accent {
+  color: var(--red);
+}
+
+.section-head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* ----- 8. About Section ----- */
+.about {
+  padding: 80px 0;
+  background: var(--bg-secondary);
+}
+
+.img-stack {
+  position: relative;
+}
+
+.img-main {
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-premium);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.img-float {
+  position: absolute;
+  bottom: -40px;
+  right: -20px;
+  width: 55%;
+  border-radius: 16px;
+  border: 5px solid #fff;
+  box-shadow: var(--shadow-hover);
+  z-index: 2;
+  object-fit: cover;
+}
+
+.exp-badge {
+  position: absolute;
+  top: 20px;
+  right: -10px;
+  background: var(--maroon);
+  color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(86, 30, 35, 0.25);
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+
+.exp-badge strong {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.exp-badge span {
+  font-size: 0.72rem;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.check-item {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.check-icon {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  background: var(--maroon);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.phone-block {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  background: var(--silver-light);
+  padding: 14px 20px;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.phone-ring {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.phone-block a {
+  font-weight: 700;
+  color: var(--maroon);
+}
+
+.about-cta {
+  margin-top: 28px;
+}
+
+/* ----- 9. Parallax Divider ----- */
+.parallax-divider {
+  height: 350px;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(86, 30, 35, 0.88) 0%,
+    rgba(86, 30, 35, 0.82) 100%
+  );
+}
+
+.divider-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+  max-width: 650px;
+}
+
+.divider-content h2 {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 1.8rem;
+  font-style: italic;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.divider-content p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+}
+
+/* ----- 10. Courses Section ----- */
+.courses {
+  padding: 80px 0;
+  background: var(--bg-primary);
+}
+
+/* Tab Bar */
+.course-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.tab-btn {
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 1px solid var(--silver);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.tab-btn:hover {
+  border-color: var(--maroon);
+  color: var(--maroon);
+}
+
+.tab-btn.active {
+  background: var(--maroon);
+  color: #fff;
+  border-color: var(--maroon);
+  box-shadow: 0 4px 16px rgba(86, 30, 35, 0.18);
+}
+
+.tab-count {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.tab-btn.active .tab-count {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Course Grid */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* Course Cards */
+.course-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--silver);
+  box-shadow: var(--shadow-premium);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--maroon);
+}
+
+.card-visual {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.card-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.course-card:hover .card-visual img {
+  transform: scale(1.05);
+}
+
+/* Card Ribbons */
+.card-ribbon {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  z-index: 2;
+  background: #1f6443; /* default – open */
+}
+
+.ribbon-core {
+  background: var(--maroon);
+}
+
+.ribbon-inhouse {
+  background: #2c3e6b;
+}
+
+.ribbon-completed {
+  background: #6b7280;
+}
+
+.ribbon-coming {
+  background: #b8860b;
+}
+
+/* Card Content */
+.card-content {
+  padding: 24px;
+}
+
+.card-tag {
+  font-size: 0.7rem;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.card-content h3 {
+  font-size: 1.15rem;
+  color: var(--maroon);
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.card-content p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--silver-light);
+  padding-top: 12px;
+  margin-bottom: 14px;
+}
+
+.card-rating {
+  font-size: 0.82rem;
+  color: var(--maroon);
+  font-weight: 600;
+}
+
+.card-price {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--red);
+}
+
+/* Card Status Badge */
+.card-status-badge {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.status-open {
+  background: rgba(31, 100, 67, 0.08);
+  color: #1f6443;
+}
+
+.status-completed {
+  background: rgba(107, 114, 128, 0.08);
+  color: #6b7280;
+}
+
+.status-coming {
+  background: rgba(184, 134, 11, 0.08);
+  color: #b8860b;
+}
+
+.status-inquiry {
+  background: rgba(44, 62, 107, 0.08);
+  color: #2c3e6b;
+}
+
+/* Card CTA Button */
+.btn-card {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: var(--transition);
+  background: var(--maroon);
+  color: #fff;
+  border: 2px solid var(--maroon);
+}
+
+.btn-card:hover {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.btn-card-outline {
+  background: transparent;
+  border: 2px solid var(--maroon);
+  color: var(--maroon);
+}
+
+.btn-card-outline:hover {
+  background: var(--maroon);
+  color: #fff;
+}
+
+/* ----- 11. Course Detail Modal ----- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-panel {
+  background: var(--bg-secondary);
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  border-radius: 24px 24px 0 0;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.open .modal-panel {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  padding: 16px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--text-muted);
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: var(--red);
+}
+
+.modal-hero-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: linear-gradient(180deg, #eef6ff 0%, #ffffff 100%);
+  display: block;
+}
+
+.modal-body {
+  padding: 28px 32px 40px;
+}
+
+.modal-badge {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--maroon);
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.modal-batch {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.modal-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 20px 0;
+  background: var(--silver-light);
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.meta-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.modal-section-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  font-weight: 700;
+  margin-top: 28px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--silver);
+}
+
+.modal-topics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+}
+
+.modal-topics li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.modal-topics li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.modal-speakers {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.speaker-card {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(248, 241, 243, 0.9)),
+    radial-gradient(circle at 10% 20%, rgba(201, 34, 51, 0.09), transparent 36%);
+  border: 1px solid rgba(201, 34, 51, 0.08);
+  padding: 14px 16px;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(36, 11, 13, 0.06);
+}
+
+.speaker-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.96), rgba(255, 214, 222, 0.42) 28%, rgba(201, 34, 51, 0.88) 62%, rgba(86, 30, 35, 1) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow:
+    0 0 0 5px rgba(201, 34, 51, 0.08),
+    0 0 22px rgba(201, 34, 51, 0.36),
+    0 12px 26px rgba(86, 30, 35, 0.24);
+}
+
+.speaker-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255, 220, 145, 0.32), rgba(201, 34, 51, 0.18) 42%, transparent 68%);
+  filter: blur(2px);
+  z-index: -1;
+}
+
+.speaker-avatar svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 5px rgba(36, 11, 13, 0.35));
+}
+
+.speaker-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.speaker-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.speaker-role {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.modal-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.benefit-tag {
+  padding: 6px 14px;
+  background: var(--silver-light);
+  color: var(--maroon);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.modal-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.modal-gallery img {
+  border-radius: 12px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.modal-gallery img:hover {
+  filter: brightness(0.92);
+}
+
+.modal-downloads {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.download-item {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  background: var(--silver-light);
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-dark);
+  border: 1px solid transparent;
+  transition: var(--transition);
+}
+
+.download-item:hover {
+  border-color: var(--maroon);
+  background: #fff;
+}
+
+.download-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.download-label {
+  flex-grow: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.download-ext {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Modal CTA */
+.modal-cta {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-modal-register {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--maroon) 0%, var(--red) 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-modal-register:hover {
+  box-shadow: 0 8px 28px rgba(201, 34, 51, 0.3);
+  transform: scale(1.015);
+}
+
+.btn-modal-browse {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 12px 28px;
+  background: transparent;
+  color: var(--maroon);
+  font-size: 0.88rem;
+  font-weight: 700;
+  border: 2px solid var(--silver);
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-modal-browse:hover {
+  border-color: var(--maroon);
+  background: var(--silver-light);
+}
+
+/* ----- 12. Achievements ----- */
+.achievements {
+  padding: 80px 0;
+  background: url('./rakdi-milestones-logistics-bg.png') center / cover fixed;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievements::before {
+  display: none;
+}
+
+.achievements .container {
+  position: relative;
+  z-index: 1;
+}
+
+.achievements .section-head .label {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.achievements .section-head h2 {
+  color: #fff;
+  text-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.timeline {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.26);
+  z-index: 0;
+}
+
+.tl-item {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 24px 0;
+  position: relative;
+}
+
+.tl-num {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.tl-body {
+  padding-top: 10px;
+}
+
+.tl-body h4 {
+  font-size: 1.1rem;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 4px;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.34);
+}
+
+.tl-body p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.6;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.34);
+}
+
+@media (max-width: 768px) {
+  .achievements {
+    background: url('./rakdi-milestones-logistics-bg.png') center / cover scroll;
+  }
+}
+
+/* ----- 13. Contact Section ----- */
+.contact {
+  padding: 80px 0;
+  background: var(--bg-primary);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.info-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--bg-secondary);
+  border: 1px solid var(--silver);
+  padding: 16px 20px;
+  border-radius: 14px;
+  transition: var(--transition);
+}
+
+.info-card:hover {
+  border-color: var(--maroon);
+  box-shadow: var(--shadow-premium);
+}
+
+.info-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.form-card {
+  background: linear-gradient(180deg, #fff5f6 0%, #ffecee 100%);
+  border: 1px solid var(--silver);
+  padding: 36px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-premium);
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.form-card--seminar {
+  background:
+    radial-gradient(circle at 14% 0%, rgba(201, 34, 51, 0.16), transparent 34%),
+    linear-gradient(180deg, #fff4f5 0%, #ffe8ec 100%);
+  border-color: rgba(201, 34, 51, 0.26);
+}
+
+.form-card--inhouse {
+  background:
+    radial-gradient(circle at 88% 0%, rgba(15, 118, 110, 0.18), transparent 34%),
+    linear-gradient(180deg, #effbf8 0%, #e2f5f1 100%);
+  border-color: rgba(15, 118, 110, 0.32);
+  box-shadow: 0 22px 58px rgba(15, 118, 110, 0.12), 0 10px 30px rgba(17, 24, 39, 0.08);
+}
+
+.form-card h3 {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 1.3rem;
+  color: var(--maroon);
+  text-align: center;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+.form-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--silver);
+  border-radius: 14px;
+}
+
+.form-tab {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.form-tab.active {
+  color: #fff;
+}
+
+.form-card--seminar .form-tab[data-form-tab="seminar"].active {
+  background: linear-gradient(135deg, var(--maroon) 0%, var(--red) 100%);
+  box-shadow: 0 8px 22px rgba(201, 34, 51, 0.22);
+}
+
+.form-card--inhouse .form-tab[data-form-tab="inhouse"].active {
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+  box-shadow: 0 8px 22px rgba(15, 118, 110, 0.22);
+}
+
+.form-tab:not(.active):hover {
+  color: var(--maroon);
+  background: rgba(86, 30, 35, 0.06);
+}
+
+.form-card--inhouse .form-tab:not(.active):hover {
+  color: #0f766e;
+  background: rgba(15, 118, 110, 0.08);
+}
+
+.form-panel {
+  display: none;
+}
+
+.form-panel.active {
+  display: block;
+}
+
+.form-card--seminar .form-panel.active {
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(201, 34, 51, 0.1);
+  border-radius: 14px;
+  padding: 14px 14px 0;
+}
+
+.form-card--inhouse .form-panel.active {
+  background: rgba(236, 253, 245, 0.48);
+  border: 1px solid rgba(15, 118, 110, 0.13);
+  border-radius: 14px;
+  padding: 14px 14px 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--silver-light);
+  border: 1px solid var(--silver);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  outline: none;
+  transition: var(--transition);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--maroon);
+  background: var(--bg-secondary);
+  box-shadow: 0 0 0 3px rgba(86, 30, 35, 0.06);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--maroon) 0%, var(--red) 100%);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-submit:hover {
+  box-shadow: 0 6px 24px rgba(201, 34, 51, 0.25);
+  filter: brightness(1.06);
+}
+
+.form-card--inhouse .btn-submit {
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+}
+
+.form-card--inhouse .btn-submit:hover {
+  box-shadow: 0 6px 24px rgba(15, 118, 110, 0.24);
+}
+
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+.form-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  color: #1f6443;
+  padding: 24px 0;
+}
+
+.form-success .success-icon {
+  font-size: 2rem;
+}
+
+/* ----- 14. Footer ----- */
+.footer {
+  background: linear-gradient(135deg, var(--maroon) 0%, var(--red) 100%);
+  color: rgba(255, 255, 255, 0.95);
+  padding: 48px 0 24px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-brand img {
+  height: 42px;
+  width: auto;
+  opacity: 1;
+  margin-bottom: 12px;
+}
+
+.footer-brand p {
+  font-size: 0.85rem;
+  max-width: 45ch;
+  line-height: 1.7;
+}
+
+.footer-copy {
+  margin-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 20px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+}
+
+/* ----- 15. Responsive ----- */
+@media (max-width: 1024px) {
+  .course-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .modal-meta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-inner {
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 6vw, 2.8rem);
+  }
+
+  .hero-sub {
+    font-size: 0.92rem;
+  }
+
+  .hero-btns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  .modal-panel {
+    max-height: 100vh;
+    border-radius: 0;
+    max-width: 100%;
+  }
+
+  .modal-body {
+    padding: 20px 20px 32px;
+  }
+
+  .modal-meta {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modal-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .parallax-divider {
+    background-attachment: scroll;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .img-float {
+    width: 50%;
+    bottom: -24px;
+    right: -10px;
+  }
+
+  .exp-badge {
+    right: 0;
+  }
+
+  .form-card {
+    padding: 24px;
+  }
+
+  .form-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .modal-speakers {
+    flex-direction: column;
+  }
+}
+
+/* ----- 16. Keyframe Animations ----- */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes scrollLine {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* Utility: Scrollbar styling (Webkit) */
+.modal-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-panel::-webkit-scrollbar-thumb {
+  background: var(--silver);
+  border-radius: 3px;
+}
+
+.modal-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ============================================================
+   RAKDI v2 polish — cinematic hero, parallax layers, modern cards
+   ============================================================ */
+
+.hero {
+  min-height: 100svh;
+  justify-content: flex-start;
+  isolation: isolate;
+  background: #240b0d;
+}
+
+.hero-bg {
+  background-position: center center;
+  transform: scale(1.08);
+  filter: saturate(0.96) contrast(1.02) brightness(0.98);
+}
+
+.hero-overlay {
+  background:
+    radial-gradient(circle at 76% 34%, rgba(167, 80, 56, 0.08) 0%, rgba(86, 30, 35, 0) 38%),
+    linear-gradient(90deg, rgba(28, 8, 10, 0.94) 0%, rgba(54, 15, 20, 0.84) 30%, rgba(86, 30, 35, 0.44) 58%, rgba(28, 8, 10, 0.08) 100%),
+    linear-gradient(180deg, rgba(28, 8, 10, 0.14) 0%, rgba(28, 8, 10, 0.4) 100%);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 30%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(36, 11, 13, 0) 0%, rgba(246, 248, 250, 0.96) 100%);
+}
+
+.hero-logistics-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.24;
+  background-image:
+    linear-gradient(115deg, transparent 0 19%, rgba(255, 221, 157, 0.28) 19.1% 19.35%, transparent 19.45% 100%),
+    linear-gradient(145deg, transparent 0 61%, rgba(255, 255, 255, 0.2) 61.1% 61.35%, transparent 61.45% 100%),
+    radial-gradient(circle at 23% 67%, rgba(255, 221, 157, 0.62) 0 2px, transparent 3px),
+    radial-gradient(circle at 38% 45%, rgba(255, 255, 255, 0.52) 0 2px, transparent 3px),
+    radial-gradient(circle at 58% 56%, rgba(255, 221, 157, 0.52) 0 2px, transparent 3px);
+  animation: logisticsDrift 12s ease-in-out infinite alternate;
+}
+
+.hero-depth-card {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 18px;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  background: rgba(36, 11, 13, 0.42);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  pointer-events: none;
+}
+
+.hero-depth-card strong {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.hero-depth-card span {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.hero-depth-card-1 {
+  right: 8vw;
+  bottom: 18vh;
+  animation: float 7s ease-in-out infinite;
+}
+
+.hero-depth-card-2 {
+  right: 24vw;
+  top: 24vh;
+  animation: float 8s ease-in-out infinite 0.8s;
+}
+
+.hero-body {
+  align-items: flex-start;
+  text-align: left;
+  margin-left: max(24px, calc((100vw - 1200px) / 2 + 24px));
+  max-width: 650px;
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 221, 157, 0.34);
+  color: rgba(255, 247, 235, 0.9);
+  letter-spacing: 0.05em;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 6vw, 5.7rem);
+  font-weight: 300;
+  letter-spacing: 0;
+  text-shadow: 0 16px 50px rgba(0, 0, 0, 0.32);
+}
+
+.hero-accent {
+  background: linear-gradient(135deg, #ffffff 0%, #ffd9a1 48%, #ff4a5e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight: 650;
+}
+
+.hero-sub {
+  color: rgba(255, 247, 235, 0.86);
+  font-size: 1.08rem;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hero-btns {
+  justify-content: flex-start;
+}
+
+.btn-glow {
+  background: linear-gradient(135deg, #6f1721 0%, #a51f2d 58%, #c8343f 100%);
+  box-shadow: 0 14px 38px rgba(86, 30, 35, 0.42);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 221, 157, 0.42);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.stats-strip {
+  margin-top: -70px;
+}
+
+.stats-inner {
+  border-color: rgba(86, 30, 35, 0.12);
+  box-shadow: 0 24px 60px rgba(86, 30, 35, 0.16);
+}
+
+.courses {
+  background:
+    linear-gradient(180deg, rgba(246, 248, 250, 0.96) 0%, rgba(255, 255, 255, 0.92) 42%, rgba(248, 243, 241, 0.94) 100%),
+    url('https://ebcinext.com/wp-content/uploads/2022/06/rakdiseminar1-1.jpeg') center 18% / cover fixed;
+  position: relative;
+}
+
+.courses::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(246, 248, 250, 0.94) 0%, rgba(246, 248, 250, 0.58) 48%, rgba(246, 248, 250, 0.96) 100%),
+    radial-gradient(circle at 18% 8%, rgba(201, 34, 51, 0.08), transparent 34%);
+}
+
+.courses > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.archive-link-wrapper {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.archive-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
+  padding: 13px 32px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #6f1721 0%, #c92233 100%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.92rem;
+  box-shadow: 0 14px 34px rgba(86, 30, 35, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  transition: var(--transition);
+}
+
+.archive-link:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 18px 42px rgba(86, 30, 35, 0.32);
+}
+
+.course-card {
+  position: relative;
+  border-radius: 18px;
+  border-color: rgba(86, 30, 35, 0.1);
+  transform-style: preserve-3d;
+}
+
+.course-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 45%, rgba(201, 34, 51, 0.08) 100%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-10px);
+}
+
+.course-card:hover::after {
+  opacity: 1;
+}
+
+.card-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(36, 11, 13, 0) 35%, rgba(36, 11, 13, 0.48) 100%);
+}
+
+.btn-card {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--maroon), var(--red));
+  border: 0;
+  box-shadow: 0 10px 24px rgba(201, 34, 51, 0.22);
+}
+
+.btn-card span {
+  transition: transform 0.25s ease;
+}
+
+.course-card:hover .btn-card span {
+  transform: translateX(4px);
+}
+
+.modal-panel {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 30px 90px rgba(36, 11, 13, 0.28);
+}
+
+.modal-overlay {
+  background: rgba(36, 11, 13, 0.64);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.contact {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(90deg, rgba(246, 248, 250, 1) 0%, rgba(255, 255, 255, 0.96) 52%, rgba(246, 248, 250, 1) 100%),
+    radial-gradient(circle at 82% 18%, rgba(201, 34, 51, 0.08), transparent 28%);
+}
+
+.contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(246, 248, 250, 0.92) 0%, rgba(246, 248, 250, 1) 100%);
+}
+
+.form-card,
+.info-card {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.footer-logo-silver {
+  position: relative;
+  width: 148px;
+  height: 56px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 8px 18px rgba(255, 255, 255, 0.16));
+}
+
+.footer-logo-silver::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, #7f858e 0%, #f7f8fb 32%, #b7bcc5 54%, #ffffff 68%, #8a9099 100%);
+  -webkit-mask: url('./rdlogo1-4.png') center / contain no-repeat;
+  mask: url('./rdlogo1-4.png') center / contain no-repeat;
+}
+
+.footer-logo-silver::after {
+  content: 'RAKDI';
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  color: transparent;
+  background: linear-gradient(115deg, #8c929b 0%, #ffffff 38%, #b7bcc5 58%, #f7f8fb 74%, #7f858e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-indent: 0.18em;
+  opacity: 0.32;
+}
+
+@supports not ((-webkit-mask: url('') center / contain no-repeat) or (mask: url('') center / contain no-repeat)) {
+  .footer-logo-silver::before {
+    display: none;
+  }
+
+  .footer-logo-silver::after {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+.modal-hero-img {
+  height: auto;
+}
+
+.btn-modal-register {
+  border-radius: 14px;
+  background: linear-gradient(135deg, #781725 0%, #c92233 58%, #f15a63 100%);
+  box-shadow: 0 14px 34px rgba(201, 34, 51, 0.28);
+}
+
+.form-highlight {
+  animation: formPulseV2 1.8s ease;
+}
+
+@keyframes logisticsDrift {
+  from { transform: translate3d(-16px, 8px, 0); }
+  to { transform: translate3d(18px, -10px, 0); }
+}
+
+@keyframes formPulseV2 {
+  0%, 100% { box-shadow: var(--shadow-premium); }
+  22% { box-shadow: 0 0 0 6px rgba(201, 34, 51, 0.14), 0 26px 70px rgba(201, 34, 51, 0.32); }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: 92svh;
+  }
+
+  .hero-bg {
+    background-position: 70% center;
+  }
+
+  .hero-overlay {
+    background:
+      linear-gradient(180deg, rgba(28, 8, 10, 0.64) 0%, rgba(66, 18, 24, 0.72) 58%, rgba(28, 8, 10, 0.28) 100%),
+      linear-gradient(90deg, rgba(28, 8, 10, 0.88), rgba(36, 11, 13, 0.18));
+  }
+
+  .hero-body {
+    margin: 0 auto;
+    padding: 96px 24px 0;
+    text-align: left;
+    max-width: 560px;
+  }
+
+  .hero-depth-card {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: clamp(2.3rem, 12vw, 3.4rem);
+  }
+
+  .hero-btns {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .hero-btns a {
+    justify-content: center;
+  }
+
+  .stats-strip {
+    margin-top: -42px;
+  }
+}
+</style>
+<!-- ════════════════════════════════════════
+       FLOATING NAV
+  ════════════════════════════════════════ -->
+  <header class="floating-nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="./rdlogo1-4.png" alt="RAKDI" />
+      </a>
+      <nav class="nav-links">
+        <a href="#about">เกี่ยวกับเรา</a>
+        <a href="#courses">หลักสูตร</a>
+        <a href="#achievements">ผลงาน</a>
+        <a href="#contact" class="nav-cta">สมัครอบรม</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════
+       HERO — Full-viewport parallax
+  ════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" style="background-image:url('./rakdi-hero-auditorium.png')"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-logistics-lines" aria-hidden="true"></div>
+    <div class="hero-depth-card hero-depth-card-1" aria-hidden="true">
+      <strong>54</strong><span>รุ่นอบรมสะสม</span>
+    </div>
+    <div class="hero-depth-card hero-depth-card-2" aria-hidden="true">
+      <strong>2,000+</strong><span>ผู้ผ่านการอบรม</span>
+    </div>
+
+    <div class="hero-body">
+      <span class="pill reveal">✦ สถาบันวิจัยและพัฒนาความรู้ภายใต้ EBCI</span>
+      <h1 class="reveal">
+        Unlock Your Potential<br/>
+        <span class="hero-accent">RAKDI Institute</span>
+      </h1>
+      <p class="hero-sub reveal">
+        ยกระดับศักยภาพผู้ประกอบการและบุคลากรด้านการค้าระหว่างประเทศ<br class="hide-mobile"/>
+        และโลจิสติกส์ สู่มาตรฐานสากลกับทีมวิทยากรจาก EBCI
+      </p>
+      <div class="hero-btns reveal">
+        <a href="#courses" class="btn-glow">ดูหลักสูตรทั้งหมด</a>
+        <a href="#contact" class="btn-ghost">สมัครอบรม →</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <span>เลื่อนลง</span>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       STATS STRIP
+  ════════════════════════════════════════ -->
+  <section class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat reveal">
+        <h3 class="counter" data-target="2000">0</h3><span class="stat-plus">+</span>
+        <p>ผู้ผ่านการอบรม</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat reveal">
+        <h3 class="counter" data-target="54">0</h3><span class="stat-unit"> รุ่น</span>
+        <p>หลักสูตรอบรมสะสม</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat reveal">
+        <h3 class="counter" data-target="4">0</h3><span class="stat-unit"> ครั้ง</span>
+        <p>สัมมนาระดับนานาชาติ</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat reveal">
+        <h3 class="counter" data-target="3000">0</h3><span class="stat-plus">+</span>
+        <p>ผู้อบรมด้านภาษีอากร</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ABOUT US
+  ════════════════════════════════════════ -->
+  <section class="about" id="about">
+    <div class="container two-col">
+      <div class="about-images reveal">
+        <div class="img-stack">
+          <img src="./rakdi-about-seminar-generated.png" alt="RAKDI professional seminar training" class="img-main" />
+          <img src="./5guru-poster-2026.png" alt="RAKDI logistics seminar" class="img-float" />
+          <div class="exp-badge">
+            <strong>22+</strong>
+            <span>ปีแห่งความ<br/>เชี่ยวชาญ EBCI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <span class="label reveal">ABOUT US</span>
+        <h2 class="reveal">สถาบันวิจัยและพัฒนาความรู้<br/><span class="text-accent">RAKDI</span></h2>
+        <p class="reveal">บริษัท อีบีซีไอ จำกัด (EBCI) ได้จัดตั้งสถาบัน RAKDI เพื่อรองรับและขับเคลื่อนบุคลากรในด้านต่าง ๆ ดังนี้:</p>
+
+        <div class="check-list">
+          <div class="check-item reveal">
+            <div class="check-icon">✓</div>
+            <div><strong>พัฒนาคนในองค์กร</strong> — อัปเดตความรู้เพื่อให้คำปรึกษาแก่ลูกค้าได้อย่างถูกต้องแม่นยำ</div>
+          </div>
+          <div class="check-item reveal">
+            <div class="check-icon">✓</div>
+            <div><strong>พัฒนาบุคคลทั่วไป &amp; SMEs</strong> — อบรมการค้าระหว่างประเทศ, Incoterms, ภาษีศุลกากร, โลจิสติกส์</div>
+          </div>
+          <div class="check-item reveal">
+            <div class="check-icon">✓</div>
+            <div><strong>กรอบคุณวุฒิแห่งชาติ (NQF)</strong> — ร่วมมือกับภาครัฐพัฒนาสมรรถนะระดับอาชีวะและอุดมศึกษา</div>
+          </div>
+        </div>
+
+        <div class="about-cta reveal">
+          <div class="phone-block">
+            <span class="phone-ring">📞</span>
+            <div><small>สอบถามหลักสูตร</small><strong>092-264-2870</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       PARALLAX DIVIDER
+  ════════════════════════════════════════ -->
+  <section class="parallax-divider" style="background-image:url('https://ebcinext.com/wp-content/uploads/2022/06/rakdiseminar1-1.jpeg')">
+    <div class="divider-overlay"></div>
+    <div class="divider-content reveal">
+      <h2>"เราเชื่อว่าการศึกษาที่ดี เปลี่ยนแปลงชีวิตและธุรกิจได้"</h2>
+      <p>— สถาบัน RAKDI by EBCI</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       COURSES — Data-driven with Tab Filter
+  ════════════════════════════════════════ -->
+  <section class="courses" id="courses">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="label">OUR PROGRAMS</span>
+        <h2>หลักสูตรของสถาบัน <span class="text-accent">RAKDI</span></h2>
+      </div>
+
+      <!-- Tab Filter -->
+      <div class="course-tabs reveal" id="courseTabs">
+        <button class="tab-btn active" data-filter="all">ทั้งหมด <span class="tab-count" id="countAll"></span></button>
+        <button class="tab-btn" data-filter="open">เปิดรับสมัคร <span class="tab-count" id="countOpen"></span></button>
+        <button class="tab-btn" data-filter="completed">เสร็จสิ้นแล้ว <span class="tab-count" id="countCompleted"></span></button>
+      </div>
+
+      <!-- Cards rendered by JS -->
+      <div class="course-grid" id="courseGrid"></div>
+
+      <!-- Link to separate archive page -->
+      <div class="archive-link-wrapper reveal text-center">
+        <a href="./archive.html" class="archive-link">
+          ดูประวัติหลักสูตรที่เสร็จสิ้นแล้วทั้งหมดในอดีต (Archive) &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       COURSE DETAIL MODAL
+  ════════════════════════════════════════ -->
+  <div class="modal-overlay" id="courseModal">
+    <div class="modal-panel" id="modalPanel">
+      <button class="modal-close" id="modalClose" aria-label="ปิด">&times;</button>
+      <div id="modalContent"><!-- JS renders here --></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       ACHIEVEMENTS
+  ════════════════════════════════════════ -->
+  <section class="achievements" id="achievements">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="label">KEY MILESTONES</span>
+        <h2>ผลงานและเกียรติประวัติ</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-num">01</div>
+          <div class="tl-body">
+            <h4>สัมมนาระดับนานาชาติ</h4>
+            <p>จัดงาน International Symposium รวม 4 ครั้ง ร่วมกับกรมส่งเสริมการค้าระหว่างประเทศ กระทรวงพาณิชย์</p>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-num">02</div>
+          <div class="tl-body">
+            <h4>ฝึกอบรมผู้ปฏิบัติงานจริง 54 รุ่น</h4>
+            <p>อบรมความรู้ด้านนำเข้า-ส่งออก และโลจิสติกส์ให้แก่ผู้ปฏิบัติงานจริงกว่า 2,000 คน</p>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-num">03</div>
+          <div class="tl-body">
+            <h4>โครงการ The Twenty</h4>
+            <p>อบรมแบบเข้มข้น (Intensive Course) สำหรับผู้บริหารและผู้ปฏิบัติงานระดับสูง 20 ท่านต่อรุ่น</p>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-num">04</div>
+          <div class="tl-body">
+            <h4>สนับสนุน SMEs ทั่วประเทศ</h4>
+            <p>อบรมการจัดการโลจิสติกส์และสิทธิประโยชน์ภาษีอากรให้แก่ SMEs กว่า 4,000 คน</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       CONTACT & REGISTRATION FORM
+  ════════════════════════════════════════ -->
+  <section class="contact" id="contact">
+    <div class="container two-col contact-grid">
+      <div class="contact-left reveal">
+        <span class="label">REGISTRATION & CONTACT</span>
+        <h2>ติดต่อเข้าร่วมอบรม<br/>หรือจัด <span class="text-accent">In-house Training</span></h2>
+        <p>เลือกสมัครอบรม/สัมมนาที่เปิดรับอยู่ หรือส่งโจทย์ให้สถาบัน RAKDI ช่วยออกแบบ In-house Training สำหรับองค์กรของคุณ</p>
+
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="info-icon">📍</div>
+            <div><strong>สำนักงานใหญ่</strong><br/>2024/104-107 Rimtangrotfai-saipaknam Road, Prakanong, Klongtoey, Bangkok 10260</div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📞</div>
+            <div><strong>โทรศัพท์</strong><br/>0-2742-7851-5 | 092-264-2870</div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">✉️</div>
+            <div><strong>อีเมล / Line</strong><br/>mks@ebcitrade.com | @ebci</div>
+          </div>
+        </div>
+      </div>
+
+      <form class="form-card form-card--seminar reveal" id="registrationForm">
+        <h3>แบบฟอร์มลงทะเบียน</h3>
+        <input type="hidden" name="formIntent" id="formIntent" value="สมัครอบรม/สัมมนา" />
+
+        <div class="form-tabs" role="tablist" aria-label="เลือกประเภทการติดต่อ">
+          <button type="button" class="form-tab active" data-form-tab="seminar" role="tab" aria-selected="true">สมัครอบรม/สัมมนา</button>
+          <button type="button" class="form-tab" data-form-tab="inhouse" role="tab" aria-selected="false">ติดต่อ In-house Training</button>
+        </div>
+        
+        <!-- ส่วนที่ 1: ข้อมูลผู้ติดต่อ -->
+        <h4 style="font-size: 0.9rem; color: var(--maroon); margin-bottom: 12px; border-left: 3px solid var(--red); padding-left: 8px; font-weight: 700;">1. ข้อมูลผู้ติดต่อ</h4>
+        <div class="form-row">
+          <div class="field"><label>ชื่อ-นามสกุล <span style="color:var(--red)">*</span></label><input type="text" name="name" placeholder="กรอกชื่อ-นามสกุลของคุณ" required /></div>
+          <div class="field">
+            <label>เบอร์โทรศัพท์ <span style="color:var(--red)">*</span></label>
+            <input type="tel" name="phone" placeholder="08x-xxx-xxxx" required />
+            <span class="field-caption" style="display: block; font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; line-height: 1.3;">ใช้เพื่อติดต่อยืนยันการสมัครอบรม (ทางสถาบันขอรับรองความปลอดภัยของข้อมูลผู้สมัคร)</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>อีเมล <span style="color:var(--red)">*</span></label><input type="email" name="email" placeholder="example@domain.com" required /></div>
+          <div class="field"><label>Line ID</label><input type="text" name="lineId" placeholder="กรอก Line ID (ถ้ามี)" /></div>
+        </div>
+        
+        <!-- ส่วนที่ 2: สถานะและข้อมูลการทำงาน -->
+        <h4 style="font-size: 0.9rem; color: var(--maroon); margin-top: 20px; margin-bottom: 12px; border-left: 3px solid var(--red); padding-left: 8px; font-weight: 700;">2. สถานะผู้สมัคร / ข้อมูลการทำงาน</h4>
+        <div class="form-row">
+          <div class="field">
+            <label>สถานะปัจจุบัน <span style="color:var(--red)">*</span></label>
+            <select name="applicantStatus" id="applicantStatus" required>
+              <option value="">-- เลือกสถานะ --</option>
+              <option value="studying">กำลังศึกษาอยู่</option>
+              <option value="recent_graduate">เพิ่งจบ (ยังไม่ได้เริ่มงาน)</option>
+              <option value="working">ทำงานแล้ว</option>
+            </select>
+          </div>
+          <div class="field"><label>ชื่อบริษัท / หน่วยงาน</label><input type="text" name="company" placeholder="ถ้ายังไม่ได้ทำงาน สามารถเว้นว่างได้" /></div>
+        </div>
+        
+        <!-- ฟิลด์เพิ่มเติมสำหรับนักศึกษา (ซ่อนไว้เริ่มต้น) -->
+        <div class="form-row" id="studentFields" style="display: none;">
+          <div class="field">
+            <label>ชื่อสถานศึกษา <span style="color:var(--red)">*</span></label>
+            <input type="text" name="schoolName" placeholder="ระบุชื่อสถาบันการศึกษา / มหาวิทยาลัย" />
+          </div>
+          <div class="field">
+            <label>คณะที่ศึกษา <span style="color:var(--red)">*</span></label>
+            <input type="text" name="faculty" placeholder="เช่น ศิลปศาสตร์, บริหารธุรกิจ, วิศวกรรมศาสตร์ ฯลฯ" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field"><label>ตำแหน่งงาน</label><input type="text" name="position" placeholder="เช่น นักศึกษา, เจ้าหน้าที่จัดซื้อ, ผู้จัดการฝ่ายโลจิสติกส์" /></div>
+          <div class="field"><label>แผนก / ฝ่าย</label><input type="text" name="department" placeholder="เช่น ฝ่ายนำเข้า-ส่งออก, ฝ่ายจัดซื้อ" /></div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>ประเภทธุรกิจขององค์กร</label>
+            <select name="businessType">
+              <option value="">-- เลือกประเภทธุรกิจ ถ้ามี --</option>
+              <option value="import_export">ธุรกิจนำเข้า-ส่งออก (Import / Export)</option>
+              <option value="logistics">โลจิสติกส์ & ขนส่ง (Logistics & Transport)</option>
+              <option value="shipping_broker">ตัวแทนออกของ / ชิปปิ้ง (Customs Broker)</option>
+              <option value="manufacturing">โรงงานผลิต / อุตสาหกรรม (Manufacturing)</option>
+              <option value="trading">ค้าปลีก-ค้าส่ง / เทรดดิ้ง (Trading)</option>
+              <option value="education">สถานศึกษา / นักศึกษา</option>
+              <option value="other">อื่น ๆ</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>ท่านทราบข่าวโครงการอบรมนี้จากที่ไหน <span style="color:var(--red)">*</span></label>
+            <select name="source" required>
+              <option value="">-- เลือกช่องทาง --</option>
+              <option value="facebook">Facebook</option>
+              <option value="line">Line Official Account</option>
+              <option value="website">เว็บไซต์ EBCI / RAKDI</option>
+              <option value="referral">มีผู้แนะนำ / เพื่อนร่วมงาน</option>
+              <option value="google">ค้นหาผ่าน Google</option>
+              <option value="other">อื่น ๆ</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-panel active" data-form-panel="seminar">
+          <!-- ส่วนที่ 3: รายละเอียดการสมัคร -->
+          <h4 style="font-size: 0.9rem; color: var(--maroon); margin-top: 20px; margin-bottom: 12px; border-left: 3px solid var(--red); padding-left: 8px; font-weight: 700;">3. สมัครอบรม/สัมมนา</h4>
+          <div class="field">
+            <label>หลักสูตรอบรมที่เปิดรับสมัครอยู่ <span style="color:var(--red)">*</span></label>
+            <select id="courseSelect" name="course" required style="width: 100%;">
+              <option value="">-- เลือกหลักสูตรที่เปิดรับสมัครอยู่ --</option>
+              <!-- Options populated by JS from COURSES data -->
+            </select>
+          </div>
+
+          <div class="field">
+            <label>รายละเอียดหรือความต้องการเพิ่มเติม (เช่น อาหารพิเศษ/ข้อคำถาม)</label>
+            <textarea name="note" rows="3" placeholder="กรอกรายละเอียดข้อสงสัย หรือความต้องการพิเศษเพิ่มเติม..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-panel" data-form-panel="inhouse">
+          <h4 style="font-size: 0.9rem; color: var(--maroon); margin-top: 20px; margin-bottom: 12px; border-left: 3px solid var(--red); padding-left: 8px; font-weight: 700;">3. รายละเอียด In-house Training</h4>
+          <div class="form-row">
+            <div class="field">
+              <label>หัวข้อ/หลักสูตรที่สนใจ <span style="color:var(--red)">*</span></label>
+              <select name="inhouseTopic" required>
+                <option value="">-- เลือกหัวข้อที่สนใจ --</option>
+                <option value="logistics">Logistics / Supply Chain</option>
+                <option value="import_export">นำเข้า-ส่งออก / Incoterms</option>
+                <option value="customs_tax">พิธีการศุลกากร / ภาษีอากร</option>
+                <option value="management">พัฒนาคนในองค์กร / Management</option>
+                <option value="custom">ต้องการออกแบบหลักสูตรเฉพาะองค์กร</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>จำนวนผู้เข้าอบรมโดยประมาณ <span style="color:var(--red)">*</span></label>
+              <input type="text" name="participantCount" placeholder="เช่น 20 คน, 50 คน" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>รูปแบบที่ต้องการ</label>
+              <select name="trainingFormat">
+                <option value="">-- เลือกรูปแบบ --</option>
+                <option value="onsite">On-site ที่องค์กร</option>
+                <option value="online">Online / Zoom</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="not_sure">ยังไม่แน่ใจ</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>ช่วงเวลาที่สะดวก</label>
+              <input type="text" name="preferredDate" placeholder="เช่น เดือนสิงหาคม, วันธรรมดา" />
+            </div>
+          </div>
+          <div class="field">
+            <label>โจทย์หรือเป้าหมายขององค์กร <span style="color:var(--red)">*</span></label>
+            <textarea name="inhouseNeed" rows="3" placeholder="เล่าโจทย์ที่อยากให้ RAKDI ช่วยออกแบบการอบรม เช่น ปัญหาในทีม เป้าหมายหลักสูตร หรือทักษะที่ต้องการพัฒนา..." required></textarea>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn-submit" id="submitBtn" style="margin-top: 10px;">ส่งข้อมูลลงทะเบียน</button>
+        <div class="form-success" id="formSuccess" style="display:none">
+          <span>✅</span>
+          <p>ส่งข้อมูลเรียบร้อย! เจ้าหน้าที่จะติดต่อกลับโดยเร็วที่สุด</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo-silver" role="img" aria-label="RAKDI"></div>
+        <p>สถาบันวิจัยและพัฒนาความรู้ RAKDI ภายใต้เครือ บริษัท อีบีซีไอ จำกัด</p>
+      </div>
+      <div class="footer-copy">© 2026 RAKDI by EBCI Ltd. All rights reserved.</div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════
+       JAVASCRIPT — Data, Rendering, Interactions
+  ═══════════════════════════════════════ -->
+  <script>
+  /* ───────────────────────────────────
+     COURSES DATA
+  ─────────────────────────────────── */
+  const COURSES = [
+    {
+      id: "5-guru-logistics-2026",
+      status: "open",
+      title: "เทคนิคการสมัครงานด้าน Logistics (ภาคปฏิบัติ)",
+      subtitle: "ฟังตัวจริง เสียงจริง ประสบการณ์จริง 5 กูรูโลจิสติกส์ของประเทศไทย",
+      batch: "",
+      category: "LOGISTICS / SEMINAR",
+      image: "./5guru-poster-2026.png",
+      date: "25 สิงหาคม 2569 (13.30-16.00 น.)",
+      location: "ออนไลน์ผ่าน Zoom",
+      price: "ฟรี",
+      rating: null,
+      description: "เจาะลึกโลกงานโลจิสติกส์จริง จากประสบการณ์ผู้บริหารตัวจริง — การบรรยายพิเศษโดยวิทยากรพิเศษ 5 ท่าน ผู้บริหารระดับสูงจากบริษัทโลจิสติกส์ชั้นนำของไทย",
+      details: {
+        topics: [
+          "เจาะลึกเทคนิคการสมัครงานด้าน Logistics จากมุมมองผู้บริหาร",
+          "ประสบการณ์จริงจาก 5 กูรูโลจิสติกส์ของประเทศไทย",
+          "แนวโน้มอุตสาหกรรมโลจิสติกส์และโอกาสในสายงาน",
+          "ทักษะที่จำเป็นสำหรับวิชาชีพโลจิสติกส์ในยุคปัจจุบัน",
+          "เคล็ดลับการเตรียมตัวและสร้าง Profile ที่โดดเด่น",
+          "ถาม-ตอบกับวิทยากรแบบสด"
+        ],
+        speakers: [
+          { name: "คุณเกตติวิทย์ สิทธิ์สุนทรวงศ์", role: "ประธานเจ้าหน้าที่บริหาร บริษัท สโตโกลบอล โลจิสติกส์ จำกัด (มหาชน) / อดีตนายก TIFFA" },
+          { name: "คุณคุณวัลภา สถิรชวาล", role: "ประธานเจ้าหน้าที่บริหาร บริษัท ดีเอสวี แอร์ แอนด์ ซี (ประเทศไทย) จำกัด / ประธานสมาคมโลจิสติกส์ไทย" },
+          { name: "คุณสายัณห์ จันทร์วิภาสวงศ์", role: "ประธานเจ้าหน้าที่บริหาร บริษัท เอ็กซ์ ตอลเล็ม ดาเมส คอร์เรสปอนแดนต์ จำกัด / นักเขียน Best Seller ด้าน Logistics" },
+          { name: "ดร.ปิยะนุช สัมฤทธิ์", role: "ผู้บริหารและผู้ก่อตั้ง บริษัท วีเอ็ม แพลตเนอร์ส จำกัด / อดีตนายกสมาคมบรรจุภัณฑ์โลจิสติกส์ไทย" },
+          { name: "คุณชัยยงค์ เทียนวุฒิชัย", role: "กรรมการผู้จัดการ บริษัท เอพีซี โลจิสติคส์ (ไทย) จำกัด / ประธานอนุกรรมการด้านการขนส่งทางอากาศ สภาการค้าแห่งประเทศไทย" }
+        ],
+        benefits: ["ฟรีไม่มีค่าลงทะเบียน", "เรียนออนไลน์ผ่าน Zoom", "ถาม-ตอบสดกับวิทยากร"]
+      },
+      downloads: [],
+      gallery: []
+    },
+    {
+      id: "logistics-export-55",
+      status: "closed",
+      title: "โลจิสติกส์เพื่อการส่งออก",
+      subtitle: "Logistics for Export",
+      batch: "รุ่นที่ 55",
+      category: "LOGISTICS / EXPORT",
+      image: "https://ebcinext.com/wp-content/uploads/2022/08/SeminarCover3-9-22.jpg",
+      date: "15-17 กรกฎาคม 2026",
+      location: "อาคาร EBCI กรุงเทพฯ",
+      price: "ฟรี",
+      rating: 4.9,
+      description: "เรียนรู้กลยุทธ์การส่งออก การบริหารโลจิสติกส์ และสิทธิประโยชน์ทางภาษีอากร จากวิทยากรมากประสบการณ์",
+      details: {
+        topics: [
+          "Incoterms® 2020 — หลักเกณฑ์การค้าระหว่างประเทศ",
+          "การขนส่งทางเรือ ทางอากาศ และ Multimodal",
+          "พิธีการศุลกากร (Customs Procedure)",
+          "สิทธิประโยชน์ภาษีอากรตาม ม.29, 19 ทวิ",
+          "Free Zone และคลังสินค้าทัณฑ์บน",
+          "Workshop: จำลองสถานการณ์การส่งออกจริง"
+        ],
+        speakers: [
+          { name: "ดร.ปรีชา เมืองมนต์", role: "ผู้เชี่ยวชาญศุลกากรอาวุโส" },
+          { name: "คุณสมหญิง ชัยวงศ์", role: "ที่ปรึกษาโลจิสติกส์ระหว่างประเทศ" }
+        ],
+        benefits: ["ใบ Certificate", "เอกสารประกอบการอบรม", "อาหาร & เครื่องดื่ม", "Networking กับผู้ประกอบการ"]
+      },
+      downloads: [],
+      gallery: []
+    },
+    {
+      id: "customs-tax-batch3",
+      status: "completed",
+      title: "พิธีการศุลกากรและสิทธิประโยชน์ภาษีอากร",
+      subtitle: "Customs Procedure & Tax Privileges",
+      batch: "รุ่นที่ 3",
+      category: "CUSTOMS / TAX",
+      image: "https://ebcinext.com/wp-content/uploads/2025/07/S__109150231.jpg",
+      date: "10-12 มกราคม 2026",
+      location: "อาคาร EBCI กรุงเทพฯ",
+      price: "ติดต่อสถาบัน",
+      rating: 4.8,
+      attendees: 45,
+      description: "สิทธิประโยชน์ภาษีตาม ม.29, คลังสินค้าทัณฑ์บน, Free Zone, 19 ทวิ และการลดข้อผิดพลาดในพิธีการศุลกากร",
+      summary: "อบรมเข้มข้น 3 วันเต็ม ผู้เข้าร่วม 45 คนจากหลากหลายองค์กร ผลประเมินความพึงพอใจ 4.8/5.0",
+      details: {
+        topics: [
+          "พิธีการศุลกากรส่งออก-นำเข้า",
+          "สิทธิประโยชน์ ม.29 และ 19 ทวิ",
+          "คลังสินค้าทัณฑ์บน & Free Zone",
+          "ข้อผิดพลาดที่พบบ่อยในพิธีการศุลกากร"
+        ],
+        speakers: [
+          { name: "ดร.ปรีชา เมืองมนต์", role: "ผู้เชี่ยวชาญศุลกากรอาวุโส" }
+        ],
+        benefits: []
+      },
+      downloads: [
+        { label: "รายชื่อผู้ผ่านการอบรม", url: "https://ebcinext.com/wp-content/uploads/2022/06/rakdiatt2.xlsx", ext: "XLSX" },
+        { label: "เอกสารประกอบการบรรยาย", url: "#", ext: "PDF" }
+      ],
+      gallery: [
+        "https://ebcinext.com/wp-content/uploads/2025/07/S__109150231.jpg",
+        "https://ebcinext.com/wp-content/uploads/2022/08/SeminarCover3-9-22.jpg",
+        "https://ebcinext.com/wp-content/uploads/2022/06/rakdiseminar1-1.jpeg"
+      ]
+    },
+    {
+      id: "inhouse-training",
+      status: "inquiry",
+      title: "อบรมภายในองค์กร (In-house Training)",
+      subtitle: "Corporate In-house Training",
+      batch: "",
+      category: "CORPORATE / IN-HOUSE",
+      image: "https://ebcinext.com/wp-content/uploads/2022/06/rakdiseminar1-1.jpeg",
+      date: "ตามที่องค์กรกำหนด",
+      location: "จัดที่สถานที่ขององค์กร",
+      price: "ออกแบบเฉพาะองค์กร",
+      rating: 5.0,
+      description: "ออกแบบหลักสูตรเฉพาะสำหรับองค์กรของคุณ ครอบคลุม Incoterms, การขนส่งระหว่างประเทศ, คลังสินค้า และอื่นๆ",
+      details: {
+        topics: [
+          "Incoterms® 2020",
+          "การขนส่งระหว่างประเทศแบบ Multimodal",
+          "พิธีการศุลกากร & สิทธิประโยชน์",
+          "การบริหารคลังสินค้าอย่างมีประสิทธิภาพ",
+          "ออกแบบเนื้อหาเฉพาะตามความต้องการ"
+        ],
+        speakers: [],
+        benefits: ["หลักสูตรออกแบบเฉพาะ", "วิทยากรเชี่ยวชาญ", "ใบ Certificate ผู้เข้าร่วม", "เอกสารครบชุด"]
+      },
+      downloads: [],
+      gallery: []
+    },
+    {
+      id: "logistics-export-54",
+      status: "completed",
+      title: "โลจิสติกส์เพื่อการส่งออก",
+      subtitle: "Logistics for Export",
+      batch: "รุ่นที่ 54",
+      category: "LOGISTICS / EXPORT",
+      image: "https://ebcinext.com/wp-content/uploads/2022/08/SeminarCover3-9-22.jpg",
+      date: "5-7 พฤศจิกายน 2025",
+      location: "อาคาร EBCI กรุงเทพฯ",
+      price: "ฟรี",
+      rating: 4.9,
+      attendees: 38,
+      description: "หลักสูตรโลจิสติกส์เพื่อการส่งออก รุ่นที่ 54 จัดเสร็จสมบูรณ์ ผู้เข้าร่วม 38 คน",
+      summary: "จัดอบรมสำเร็จ 3 วัน มีผู้เข้าร่วม 38 คน ผลประเมินความพึงพอใจ 4.9/5.0",
+      details: {
+        topics: ["Incoterms® 2020", "การขนส่งทางเรือ ทางอากาศ", "พิธีการศุลกากร", "Workshop"],
+        speakers: [{ name: "ดร.ปรีชา เมืองมนต์", role: "ผู้เชี่ยวชาญศุลกากรอาวุโส" }],
+        benefits: []
+      },
+      downloads: [
+        { label: "รายชื่อผู้ผ่านการอบรม รุ่น 54", url: "#", ext: "XLSX" }
+      ],
+      gallery: [
+        "https://ebcinext.com/wp-content/uploads/2022/08/SeminarCover3-9-22.jpg",
+        "https://ebcinext.com/wp-content/uploads/2022/06/rakdiseminar1-1.jpeg"
+      ]
+    },
+    {
+      id: "incoterms-2026",
+      status: "coming_soon",
+      title: "Incoterms® 2020 Deep Dive",
+      subtitle: "เจาะลึก Incoterms สำหรับผู้ปฏิบัติงาน",
+      batch: "รุ่นที่ 1",
+      category: "INTERNATIONAL TRADE",
+      image: "https://ebcinext.com/wp-content/uploads/2025/07/S__109150231.jpg",
+      date: "กันยายน 2026 (ยังไม่กำหนดวันที่แน่นอน)",
+      location: "อาคาร EBCI กรุงเทพฯ",
+      price: "เร็วๆนี้",
+      rating: null,
+      description: "หลักสูตรใหม่! เจาะลึกทุกแง่มุมของ Incoterms® 2020 — ทั้งภาคทฤษฎีและ Workshop สำหรับผู้ปฏิบัติงานจริง",
+      details: {
+        topics: [
+          "ภาพรวม Incoterms® 2020 ทั้ง 11 เงื่อนไข",
+          "การเลือก Incoterms ที่เหมาะกับสินค้าแต่ละประเภท",
+          "ข้อผิดพลาดที่พบบ่อยในการใช้ Incoterms",
+          "Case Study จากการค้าจริง"
+        ],
+        speakers: [],
+        benefits: ["ใบ Certificate", "เอกสารประกอบ", "อาหาร & เครื่องดื่ม"]
+      },
+      downloads: [],
+      gallery: []
+    }
+  ];
+
+
+  /* ───────────────────────────────────
+     STATUS HELPERS
+  ─────────────────────────────────── */
+  const STATUS_MAP = {
+    open:        { label: "เปิดรับสมัคร",  ribbonClass: "",                badgeClass: "status-open",      icon: "📝" },
+    inquiry:     { label: "สอบถามจัดอบรม", ribbonClass: "ribbon-inhouse",   badgeClass: "status-inquiry",   icon: "💬" },
+    coming_soon: { label: "เร็วๆนี้",       ribbonClass: "ribbon-coming",   badgeClass: "status-coming",    icon: "🔔" },
+    in_progress: { label: "กำลังดำเนินการ", ribbonClass: "ribbon-progress", badgeClass: "status-progress",  icon: "▶️" },
+    completed:   { label: "เสร็จสิ้นแล้ว",  ribbonClass: "ribbon-completed",badgeClass: "status-completed", icon: "✅" },
+    closed:      { label: "ปิดรับสมัคร",    ribbonClass: "ribbon-completed",badgeClass: "status-completed", icon: "🔒" }
+  };
+
+  function getStatus(s) { return STATUS_MAP[s] || STATUS_MAP.open; }
+
+
+  /* ───────────────────────────────────
+     RENDER COURSE CARDS
+  ─────────────────────────────────── */
+  const grid = document.getElementById('courseGrid');
+  const isRegistrationOpen = c => c.status === 'open';
+
+  function renderCards(filter) {
+    const filtered = filter === 'all'
+      ? COURSES
+      : filter === 'open'
+        ? COURSES.filter(isRegistrationOpen)
+        : COURSES.filter(c => c.status === filter);
+
+    grid.innerHTML = filtered.map(c => {
+      const st = getStatus(c.status);
+      const ctaText = c.status === 'open' ? 'สมัครเลย'
+                    : c.status === 'completed' ? 'ดูผลงาน'
+                    : c.status === 'closed' ? 'ดูรายละเอียด'
+                    : c.status === 'inquiry' ? 'สอบถาม'
+                    : c.status === 'coming_soon' ? 'ดูรายละเอียด'
+                    : 'ดูรายละเอียด';
+      return `
+        <article class="course-card reveal visible" data-id="${c.id}" onclick="openModal('${c.id}')">
+          <div class="card-visual">
+            <img src="${c.image}" alt="${c.title}" loading="lazy" />
+            <div class="card-ribbon ${st.ribbonClass}">${st.label}</div>
+          </div>
+          <div class="card-content">
+            <span class="card-tag">${c.category}</span>
+            <h3>${c.title}${c.batch ? ' <small style=\"font-weight:400;color:var(--text-muted)\">(' + c.batch + ')</small>' : ''}</h3>
+            <p>${c.description}</p>
+            <div class="card-bottom">
+              <div class="card-status-badge ${st.badgeClass}">${st.icon} ${st.label}</div>
+              ${c.rating ? `<span class="card-price">⭐ ${c.rating}/5</span>` : '<span class="card-price">' + (c.price || '') + '</span>'}
+            </div>
+            <button class="btn-card" type="button">${ctaText} <span>→</span></button>
+          </div>
+        </article>`;
+    }).join('');
+  }
+
+  // Update tab counts
+  function updateCounts() {
+    document.getElementById('countAll').textContent = COURSES.length;
+    document.getElementById('countOpen').textContent = COURSES.filter(isRegistrationOpen).length;
+    document.getElementById('countCompleted').textContent = COURSES.filter(c => c.status === 'completed').length;
+  }
+
+  // Tab click
+  document.getElementById('courseTabs').addEventListener('click', e => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCards(btn.dataset.filter);
+  });
+
+
+  /* ───────────────────────────────────
+     POPULATE COURSE SELECT IN FORM
+  ─────────────────────────────────── */
+  function populateSelect() {
+    const sel = document.getElementById('courseSelect');
+    const openCourses = COURSES.filter(isRegistrationOpen);
+    openCourses.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.title + (c.batch ? ` (${c.batch})` : '');
+      sel.appendChild(opt);
+    });
+    if (openCourses.length === 1) sel.value = openCourses[0].id;
+  }
+
+  function switchContactTab(tabName) {
+    const nextTab = tabName === 'inhouse' ? 'inhouse' : 'seminar';
+    const intentLabel = nextTab === 'inhouse' ? 'ติดต่อ In-house Training' : 'สมัครอบรม/สัมมนา';
+
+    document.querySelectorAll('[data-form-tab]').forEach(btn => {
+      const active = btn.dataset.formTab === nextTab;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('[data-form-panel]').forEach(panel => {
+      const active = panel.dataset.formPanel === nextTab;
+      panel.classList.toggle('active', active);
+      panel.querySelectorAll('input, select, textarea').forEach(field => {
+        field.disabled = !active;
+      });
+    });
+
+    const formCard = document.getElementById('registrationForm');
+    formCard.classList.toggle('form-card--seminar', nextTab === 'seminar');
+    formCard.classList.toggle('form-card--inhouse', nextTab === 'inhouse');
+
+    document.getElementById('formIntent').value = intentLabel;
+    document.getElementById('submitBtn').textContent = nextTab === 'inhouse'
+      ? 'ส่งคำขอปรึกษา In-house Training'
+      : 'ส่งข้อมูลลงทะเบียน';
+  }
+
+
+  /* ───────────────────────────────────
+     MODAL SYSTEM
+  ─────────────────────────────────── */
+  const modalOverlay = document.getElementById('courseModal');
+  const modalContent = document.getElementById('modalContent');
+
+  function openModal(courseId) {
+    const c = COURSES.find(x => x.id === courseId);
+    if (!c) return;
+    const st = getStatus(c.status);
+
+    let html = `<img class="modal-hero-img" src="${c.image}" alt="${c.title}" />`;
+    html += `<div class="modal-body">`;
+    html += `<div class="modal-badge ${st.badgeClass}">${st.icon} ${st.label}</div>`;
+    html += `<h2 class="modal-title">${c.title}</h2>`;
+    if (c.batch) html += `<p class="modal-batch">${c.subtitle} — ${c.batch}</p>`;
+
+    // Meta info
+    html += `<div class="modal-meta">`;
+    html += `<div class="meta-item"><span class="meta-label">วันที่จัด</span><span class="meta-value">📅 ${c.date}</span></div>`;
+    html += `<div class="meta-item"><span class="meta-label">สถานที่</span><span class="meta-value">📍 ${c.location}</span></div>`;
+    html += `<div class="meta-item"><span class="meta-label">${c.status === 'completed' ? 'ผู้เข้าร่วม' : 'ค่าลงทะเบียน'}</span><span class="meta-value">${c.status === 'completed' && c.attendees ? '👥 ' + c.attendees + ' คน' : '💰 ' + c.price}</span></div>`;
+    html += `</div>`;
+
+    // Summary for completed
+    if (c.status === 'completed' && c.summary) {
+      html += `<div class="modal-summary"><p>${c.summary}</p></div>`;
+    }
+
+    // Topics
+    if (c.details.topics.length) {
+      html += `<h4 class="modal-section-title">${c.status === 'completed' ? 'เนื้อหาที่อบรม' : 'เนื้อหาหลักสูตร'}</h4>`;
+      html += `<ul class="modal-topics">${c.details.topics.map(t => `<li>${t}</li>`).join('')}</ul>`;
+    }
+
+    // Speakers
+    if (c.details.speakers.length) {
+      html += `<h4 class="modal-section-title">วิทยากร</h4>`;
+      html += `<div class="modal-speakers">${c.details.speakers.map(s =>
+        `<div class="speaker-card">
+          <div class="speaker-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 12.5a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z"></path>
+              <path d="M4.8 20.2c.78-3.34 3.5-5.2 7.2-5.2s6.42 1.86 7.2 5.2"></path>
+              <path d="M17.2 7.2h3.1M18.75 5.65V8.8"></path>
+            </svg>
+          </div>
+          <div><div class="speaker-name">${s.name}</div><div class="speaker-role">${s.role}</div></div>
+        </div>`
+      ).join('')}</div>`;
+    }
+
+    // Benefits (for open courses)
+    if (c.details.benefits.length && c.status !== 'completed') {
+      html += `<h4 class="modal-section-title">สิ่งที่จะได้รับ</h4>`;
+      html += `<div class="modal-benefits">${c.details.benefits.map(b => `<span class="benefit-tag">✅ ${b}</span>`).join('')}</div>`;
+    }
+
+    // Gallery (for completed)
+    if (c.gallery && c.gallery.length) {
+      html += `<h4 class="modal-section-title">ภาพบรรยากาศ</h4>`;
+      html += `<div class="modal-gallery">${c.gallery.map(g => `<img src="${g}" alt="ภาพกิจกรรม" loading="lazy" />`).join('')}</div>`;
+    }
+
+    // Downloads (for completed)
+    if (c.downloads && c.downloads.length) {
+      html += `<h4 class="modal-section-title">ดาวน์โหลดเอกสาร</h4>`;
+      html += `<div class="modal-downloads">${c.downloads.map(d =>
+        `<a href="${d.url}" class="download-item" target="_blank" rel="noopener">
+          <span class="download-icon">📄</span>
+          <span class="download-label">${d.label}</span>
+          <span class="download-ext">${d.ext}</span>
+        </a>`
+      ).join('')}</div>`;
+    }
+
+    // CTA
+    html += `<div class="modal-cta">`;
+    if (c.status === 'open') {
+      html += `<button class="btn-modal-register" onclick="registerFromModal('${c.id}')">สมัครอบรมหลักสูตรนี้ →</button>`;
+    } else if (c.status === 'coming_soon') {
+      html += `<button class="btn-modal-register" onclick="registerFromModal('${c.id}')">ลงชื่อรับแจ้งเตือน →</button>`;
+    } else if (c.status === 'inquiry') {
+      html += `<button class="btn-modal-browse" onclick="openInhouseForm()">สอบถามจัดอบรมภายในองค์กร →</button>`;
+    } else if (c.status === 'completed' || c.status === 'closed') {
+      const openOnes = COURSES.filter(isRegistrationOpen);
+      if (openOnes.length) {
+        html += `<button class="btn-modal-browse" onclick="closeModal(); document.querySelector('[data-filter=\\'open\\']').click();">ดูสัมมนาที่เปิดรับอยู่ →</button>`;
+      }
+    }
+    html += `</div></div>`;
+
+    modalContent.innerHTML = html;
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Update URL hash
+    history.replaceState(null, '', '#course-' + courseId);
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    history.replaceState(null, '', window.location.pathname);
+  }
+
+  // Register from modal — close modal, scroll to form, pre-fill select
+  function registerFromModal(courseId) {
+    closeModal();
+    switchContactTab('seminar');
+    const sel = document.getElementById('courseSelect');
+    const opt = Array.from(sel.options).find(o => o.value === courseId);
+    if (opt) sel.value = courseId;
+
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    // Flash the form
+    const form = document.querySelector('.form-card');
+    form.classList.add('form-highlight');
+    setTimeout(() => form.classList.remove('form-highlight'), 2000);
+  }
+
+  function openInhouseForm() {
+    closeModal();
+    switchContactTab('inhouse');
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    const form = document.querySelector('.form-card');
+    form.classList.add('form-highlight');
+    setTimeout(() => form.classList.remove('form-highlight'), 2000);
+  }
+
+  document.querySelectorAll('[data-form-tab]').forEach(btn => {
+    btn.addEventListener('click', () => switchContactTab(btn.dataset.formTab));
+  });
+
+  // Close modal events
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Form submit
+  document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const btn = form.querySelector('button[type="submit"]');
+    const successMsg = document.getElementById('formSuccess');
+    
+    // Disable submit button and show loading text
+    btn.disabled = true;
+    const originalBtnText = btn.textContent;
+    btn.textContent = 'กำลังส่งข้อมูล...';
+    
+    const formData = new FormData(form);
+    const phoneValue = (formData.get('phone') || '').toString().trim();
+    const phoneDigits = phoneValue.replace(/\D/g, '');
+    if (phoneDigits.length === 10) {
+      formData.set('phone', `${phoneDigits.slice(0, 3)}-${phoneDigits.slice(3, 6)}-${phoneDigits.slice(6)}`);
+    }
+
+    const statusLabels = {
+      studying: 'กำลังศึกษาอยู่',
+      recent_graduate: 'เพิ่งจบ (ยังไม่ได้เริ่มงาน)',
+      working: 'ทำงานแล้ว'
+    };
+    const applicantStatus = formData.get('applicantStatus');
+    const applicantStatusText = statusLabels[applicantStatus] || applicantStatus || '-';
+    const formIntent = (formData.get('formIntent') || 'สมัครอบรม/สัมมนา').toString();
+    const originalNote = (formData.get('note') || '').toString().trim();
+    const inhouseNeed = (formData.get('inhouseNeed') || '').toString().trim();
+    const participantCount = (formData.get('participantCount') || '').toString().trim();
+    const preferredDate = (formData.get('preferredDate') || '').toString().trim();
+    const noteParts = [`ประเภทฟอร์ม: ${formIntent}`, `สถานะปัจจุบัน: ${applicantStatusText}`];
+    if (participantCount) noteParts.push(`จำนวนผู้เข้าอบรม: ${participantCount}`);
+    if (preferredDate) noteParts.push(`ช่วงเวลาที่สะดวก: ${preferredDate}`);
+    if (inhouseNeed) noteParts.push(`โจทย์องค์กร: ${inhouseNeed}`);
+    if (originalNote) noteParts.push(originalNote);
+    formData.set('note', noteParts.join(' | '));
+
+    ['businessType', 'course', 'source', 'inhouseTopic', 'trainingFormat'].forEach(name => {
+      const field = form.elements[name];
+      if (field && field.selectedOptions && field.selectedOptions[0]) {
+        const label = field.selectedOptions[0].textContent.trim();
+        if (label && !label.startsWith('--')) {
+          formData.set(name, label);
+        }
+      }
+    });
+
+    if (formIntent === 'ติดต่อ In-house Training') {
+      const topicLabel = formData.get('inhouseTopic') || 'In-house Training';
+      formData.set('course', `ติดต่อ In-house Training: ${topicLabel}`);
+      if (!formData.get('source')) formData.set('source', 'แบบฟอร์ม In-house Training');
+    }
+    
+    // google script web app url (replace with your actual Google Script Web App URL)
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbwZ41-9uT30Yop0EJ7WNd4ixbVtmdjBqyXgvJSQ7tUtK-IS3aCE8ins-whnI2YHPOKd/exec';
+    
+    if (scriptUrl === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+      // Mock submit if script url is not set yet
+      setTimeout(() => {
+        successMsg.style.display = 'flex';
+        btn.style.display = 'none';
+        form.reset();
+      }, 800);
+      return;
+    }
+    
+    // Post as urlencoded form data to bypass CORS issues on Google Apps Script redirect
+    const searchParams = new URLSearchParams(formData);
+    
+    fetch(scriptUrl, {
+      method: 'POST',
+      mode: 'no-cors', // allows sending data without getting blocked by CORS on redirect
+      body: searchParams
+    })
+    .then(() => {
+      successMsg.style.display = 'flex';
+      btn.style.display = 'none';
+      form.reset();
+    })
+    .catch(err => {
+      alert('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ดูแลระบบ');
+      btn.disabled = false;
+      btn.textContent = originalBtnText;
+      console.error(err);
+    });
+  });
+
+
+  /* ───────────────────────────────────
+     INIT
+  ─────────────────────────────────── */
+  updateCounts();
+  populateSelect();
+  switchContactTab('seminar');
+  renderCards('all');
+
+  // Toggle student fields based on status
+  const applicantStatusSelect = document.getElementById('applicantStatus');
+  const studentFieldsRow = document.getElementById('studentFields');
+  const schoolInput = studentFieldsRow.querySelector('input[name="schoolName"]');
+  const facultyInput = studentFieldsRow.querySelector('input[name="faculty"]');
+
+  function toggleStudentFields() {
+    if (applicantStatusSelect.value === 'studying') {
+      studentFieldsRow.style.display = 'grid';
+      schoolInput.required = true;
+      facultyInput.required = true;
+    } else {
+      studentFieldsRow.style.display = 'none';
+      schoolInput.required = false;
+      facultyInput.required = false;
+      // Clear values if hidden to avoid submitting outdated data
+      schoolInput.value = '';
+      facultyInput.value = '';
+    }
+  }
+  applicantStatusSelect.addEventListener('change', toggleStudentFields);
+
+  // Deep-link: open modal if URL has #course-xxx
+  if (location.hash.startsWith('#course-')) {
+    const id = location.hash.replace('#course-', '');
+    setTimeout(() => openModal(id), 500);
+  }
+
+
+  /* ───────────────────────────────────
+     SCROLL ANIMATIONS
+  ─────────────────────────────────── */
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Animated counters
+  const cio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, target = +el.dataset.target;
+      let current = 0;
+      const step = Math.max(1, Math.ceil(target / 60));
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(timer); }
+        el.textContent = current.toLocaleString();
+      }, 25);
+      cio.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter').forEach(el => cio.observe(el));
+
+  // Parallax
+  const heroBg = document.querySelector('.hero-bg');
+  const heroLines = document.querySelector('.hero-logistics-lines');
+  const heroCards = document.querySelectorAll('.hero-depth-card');
+  const parallaxDiv = document.querySelector('.parallax-divider');
+  let ticking = false;
+
+  function updateParallax() {
+    const y = window.scrollY;
+    if (heroBg) heroBg.style.transform = `translate3d(0, ${y * 0.24}px, 0) scale(1.08)`;
+    if (heroLines) heroLines.style.transform = `translate3d(${y * 0.03}px, ${y * -0.05}px, 0)`;
+    heroCards.forEach((card, index) => {
+      card.style.transform = `translate3d(0, ${y * (index ? 0.09 : 0.06)}px, 0)`;
+    });
+    if (parallaxDiv) {
+      const rect = parallaxDiv.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        parallaxDiv.style.backgroundPositionY = `${rect.top * 0.3}px`;
+      }
+    }
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Sticky nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  }, { passive: true });
+
+  </script>
+<!-- /wp:html -->
